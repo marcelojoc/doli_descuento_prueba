@@ -90,8 +90,6 @@ if ($user->societe_id > 0)
 	//accessforbidden();
 }
 
-
-var_dump($_GET);
 // Initialize technical object to manage hooks. Note that conf->hooks_modules contains array
 $hookmanager->initHooks(array('pruebalist'));
 $extrafields = new ExtraFields($db);
@@ -192,292 +190,193 @@ $form=new Form($db);
 // Put here content of your page
 $title = $langs->trans('Lista de Descuentos por producto');
 
-// Example : Adding jquery code
-print '<script type="text/javascript" language="javascript">
-jQuery(document).ready(function() {
-	function init_myfunc()
-	{
-		jQuery("#myid").removeAttr(\'disabled\');
-		jQuery("#myid").attr(\'disabled\',\'disabled\');
-	}
-	init_myfunc();
-	jQuery("#mybutton").click(function() {
-		init_myfunc();
-	});
-});
-</script>';
+// $product = new Product($db) ;
+// $result = $product->fetch(3) ; //Tester $result pour vérifier que l'accès à la base s'est bien passé
+
+// var_dump($product);
+// echo $product->label;
 
 
-$sql = "SELECT";
-$sql.= " t.rowid,";
-
-		$sql .= " t.nombre";
 
 
-// Add fields for extrafields
-foreach ($extrafields->attribute_list as $key => $val) $sql.=",ef.".$key.' as options_'.$key;
-// Add fields from hooks
-$parameters=array();
-$reshook=$hookmanager->executeHooks('printFieldListSelect',$parameters);    // Note that $action and $object may have been modified by hook
-$sql.=$hookmanager->resPrint;
-$sql.= " FROM ".MAIN_DB_PREFIX."prueba as t";
-if (is_array($extrafields->attribute_label) && count($extrafields->attribute_label)) $sql.= " LEFT JOIN ".MAIN_DB_PREFIX."prueba_extrafields as ef on (u.rowid = ef.fk_object)";
-$sql.= " WHERE 1 = 1";
-//$sql.= " WHERE u.entity IN (".getEntity('mytable',1).")";
-
-if ($search_nombre) $sql.= natural_search("nombre",$search_nombre);
 
 
-if ($sall)          $sql.= natural_search(array_keys($fieldstosearchall), $sall);
-// Add where from extra fields
-foreach ($search_array_options as $key => $val)
-{
-    $crit=$val;
-    $tmpkey=preg_replace('/search_options_/','',$key);
-    $typ=$extrafields->attribute_type[$tmpkey];
-    $mode=0;
-    if (in_array($typ, array('int','double'))) $mode=1;    // Search on a numeric
-    if ($val && ( ($crit != '' && ! in_array($typ, array('select'))) || ! empty($crit))) 
-    {
-        $sql .= natural_search('ef.'.$tmpkey, $crit, $mode);
-    }
-}
-// Add where from hooks
-$parameters=array();
-$reshook=$hookmanager->executeHooks('printFieldListWhere',$parameters);    // Note that $action and $object may have been modified by hook
-$sql.=$hookmanager->resPrint;
-$sql.=$db->order($sortfield,$sortorder);
-//$sql.= $db->plimit($conf->liste_limit+1, $offset);
+$resql=$db->query("select * from llx_societe where rowid = 116");
+ if ($resql)
+ {
+         $num = $db->num_rows($resql);
+         $i = 0;
+         if ($num)
+         {
+                 while ($i < $num)
+                 {
+                         $obj = $db->fetch_object($resql);
+                         if ($obj)
+                         {
+                                 // You can use here results
+                                 print $obj->nom;
+                                 //print $obj->name_alias;
+                         }
+                         $i++;
+                 }
+         }
+ }else{
 
-// Count total nb of records
-$nbtotalofrecords = 0;
-if (empty($conf->global->MAIN_DISABLE_FULL_SCANLIST))
-{
-	$result = $db->query($sql);
-	$nbtotalofrecords = $db->num_rows($result);
-}	
+	 print "nada";
+ }
 
-$sql.= $db->plimit($conf->liste_limit+1, $offset);
+print"
 
 
-dol_syslog($script_file, LOG_DEBUG);
-$resql=$db->query($sql);
-if ($resql)
-{
-    $num = $db->num_rows($resql);
-    
-    $params='';
-	
-if ($search_nombre != '') $params.= '&amp;search_nombre='.urlencode($search_nombre);
+	<header id='header' class='skel-layers-fixed'>
+				<h1><a href='#'>Ion</a></h1>
+				<nav id='nav'>
+					<ul>
+						<li><a href='index.html'>Home</a></li>
+						<li><a href='left-sidebar.html'>Left Sidebar</a></li>
+						<li><a href='right-sidebar.html'>Right Sidebar</a></li>
+						<li><a href='no-sidebar.html'>No Sidebar</a></li>
+						<li><a href='#' class='button special'>Sign Up</a></li>
+					</ul>
+				</nav>
+			</header>
 
-	
-    if ($optioncss != '') $param.='&optioncss='.$optioncss;
-    // Add $param from extra fields
-    foreach ($search_array_options as $key => $val)
-    {
-        $crit=$val;
-        $tmpkey=preg_replace('/search_options_/','',$key);
-        if ($val != '') $param.='&search_options_'.$tmpkey.'='.urlencode($val);
-    } 
-    
-    print_barre_liste($title, $page, $_SERVER["PHP_SELF"],$params,$sortfield,$sortorder,'',$num,$nbtotalofrecords,'title_companies');
-    
+		<!-- Banner -->
+			<section id='banner'>
+				<div class='inner'>
+					<h2>This is Ion</h2>
+					<p>A free responsive template by <a href='http://templated.co'>TEMPLATED</a></p>
+					<ul class='actions'>
+						<li><a href='#content' class='button big special'>Sign Up</a></li>
+						<li><a href='#elements' class='button big alt'>Learn More</a></li>
+					</ul>
+				</div>
+			</section>
 
-	print '<form method="GET" id="searchFormList" action="'.$_SERVER["PHP_SELF"].'">';
-    if ($optioncss != '') print '<input type="hidden" name="optioncss" value="'.$optioncss.'">';
-	print '<input type="hidden" name="token" value="'.$_SESSION['newtoken'].'">';
-	print '<input type="hidden" name="formfilteraction" id="formfilteraction" value="list">';
-	print '<input type="hidden" name="sortfield" value="'.$sortfield.'">';
-	print '<input type="hidden" name="sortorder" value="'.$sortorder.'">';
-	
-    if ($sall)
-    {
-        foreach($fieldstosearchall as $key => $val) $fieldstosearchall[$key]=$langs->trans($val);
-        print $langs->trans("FilterOnInto", $all) . join(', ',$fieldstosearchall);
-    }
-    
-	if (! empty($moreforfilter))
-	{
-		print '<div class="liste_titre liste_titre_bydiv centpercent">';
-		print $moreforfilter;
-    	$parameters=array();
-    	$reshook=$hookmanager->executeHooks('printFieldPreListTitle',$parameters);    // Note that $action and $object may have been modified by hook
-	    print $hookmanager->resPrint;
-	    print '</div>';
-	}
+		<!-- One -->
+			<section id='one' class='wrapper style1'>
+				<header class='major'>
+					<h2>Ipsum feugiat consequat</h2>
+					<p>Tempus adipiscing commodo ut aliquam blandit</p>
 
-    $varpage=empty($contextpage)?$_SERVER["PHP_SELF"]:$contextpage;
-    $selectedfields=$form->multiSelectArrayWithCheckbox('selectedfields', $arrayfields, $varpage);	// This also change content of $arrayfields
-	
-	print '<table class="liste '.($moreforfilter?"listwithfilterbefore":"").'">';
+					<input type='text'>
+				</header>
+				<div class='container'>
+					<div class='row'>
+						<div class='4u'>
+							<section class='special box'>
+								<i class='icon fa-area-chart major'></i>
+								<h3>Justo placerat</h3>
+								<p>Eu non col commodo accumsan ante mi. Commodo consectetur sed mi adipiscing accumsan ac nunc tincidunt lobortis.</p>
+							</section>
+						</div>
+						<div class='4u'>
+							<section class='special box'>
+								<i class='icon fa-refresh major'></i>
+								<h3>Blandit quis curae</h3>
+								<p>Eu non col commodo accumsan ante mi. Commodo consectetur sed mi adipiscing accumsan ac nunc tincidunt lobortis.</p>
+							</section>
+						</div>
+						<div class='4u'>
+							<section class='special box'>
+								<i class='icon fa-cog major'></i>
+								<h3>Amet sed accumsan</h3>
+								<p>Eu non col commodo accumsan ante mi. Commodo consectetur sed mi adipiscing accumsan ac nunc tincidunt lobortis.</p>
+							</section>
+						</div>
+					</div>
+				</div>
+			</section>
+			
+		<!-- Two -->
+			<section id='two' class='wrapper style2'>
+				<header class='major'>
+					<h2>Commodo accumsan aliquam</h2>
+					<p>Amet nisi nunc lorem accumsan</p>
+				</header>
+				<div class='container'>
+					<div class='row'>
+						<div class='6u'>
+							<section class='special'>
+								<a href='#' class='image fit'><img src='images/pic01.jpg' alt='' /></a>
+								<h3>Mollis adipiscing nisl</h3>
+								<p>Eget mi ac magna cep lobortis faucibus accumsan enim lacinia adipiscing metus urna adipiscing cep commodo id. Ac quis arcu amet. Arcu nascetur lorem adipiscing non faucibus odio nullam arcu lobortis. Aliquet ante feugiat. Turpis aliquet ac posuere volutpat lorem arcu aliquam lorem.</p>
+								<ul class='actions'>
+									<li><a href='#' class='button alt'>Learn More</a></li>
+								</ul>
+							</section>
+						</div>
+						<div class='6u'>
+							<section class='special'>
+								<a href='#' class='image fit'><img src='images/pic02.jpg' alt='' /></a>
+								<h3>Neque ornare adipiscing</h3>
+								<p>Eget mi ac magna cep lobortis faucibus accumsan enim lacinia adipiscing metus urna adipiscing cep commodo id. Ac quis arcu amet. Arcu nascetur lorem adipiscing non faucibus odio nullam arcu lobortis. Aliquet ante feugiat. Turpis aliquet ac posuere volutpat lorem arcu aliquam lorem.</p>
+								<ul class='actions'>
+									<li><a href='#' class='button alt'>Learn More</a></li>
+								</ul>
+							</section>
+						</div>
+					</div>
+				</div>
+			</section>
 
-    // Fields title
-    print '<tr class="liste_titre">';
-    
-if (! empty($arrayfields['t.nombre']['checked'])) print_liste_field_titre($arrayfields['t.nombre']['label'],$_SERVER['PHP_SELF'],'t.nombre','',$param,'',$sortfield,$sortorder);
-
-    
-	// Extra fields
-	if (is_array($extrafields->attribute_label) && count($extrafields->attribute_label))
-	{
-	   foreach($extrafields->attribute_label as $key => $val) 
-	   {
-           if (! empty($arrayfields["ef.".$key]['checked'])) 
-           {
-				$align=$extrafields->getAlignFlag($key);
-				print_liste_field_titre($extralabels[$key],$_SERVER["PHP_SELF"],"ef.".$key,"",$param,($align?'align="'.$align.'"':''),$sortfield,$sortorder);
-           }
-	   }
-	}
-    // Hook fields
-	$parameters=array('arrayfields'=>$arrayfields);
-    $reshook=$hookmanager->executeHooks('printFieldListTitle',$parameters);    // Note that $action and $object may have been modified by hook
-    print $hookmanager->resPrint;
-	if (! empty($arrayfields['t.datec']['checked']))  print_liste_field_titre($langs->trans("DateCreationShort"),$_SERVER["PHP_SELF"],"t.datec","",$param,'align="center" class="nowrap"',$sortfield,$sortorder);
-	if (! empty($arrayfields['t.tms']['checked']))    print_liste_field_titre($langs->trans("DateModificationShort"),$_SERVER["PHP_SELF"],"t.tms","",$param,'align="center" class="nowrap"',$sortfield,$sortorder);
-	//if (! empty($arrayfields['t.status']['checked'])) print_liste_field_titre($langs->trans("Status"),$_SERVER["PHP_SELF"],"t.status","",$param,'align="center"',$sortfield,$sortorder);
-	print_liste_field_titre($selectedfields, $_SERVER["PHP_SELF"],"",'','','align="right"',$sortfield,$sortorder,'maxwidthsearch ');
-    print '</tr>'."\n";
-
-    // Fields title search
-	print '<tr class="liste_titre">';
-	
-if (! empty($arrayfields['t.nombre']['checked'])) print '<td class="liste_titre"><input type="text" class="flat" name="search_nombre" value="'.$search_nombre.'" size="10"></td>';
-
-	
-	// Extra fields
-	if (is_array($extrafields->attribute_label) && count($extrafields->attribute_label))
-	{
-        foreach($extrafields->attribute_label as $key => $val) 
-        {
-            if (! empty($arrayfields["ef.".$key]['checked']))
-            {
-                $align=$extrafields->getAlignFlag($key);
-                $typeofextrafield=$extrafields->attribute_type[$key];
-                print '<td class="liste_titre'.($align?' '.$align:'').'">';
-            	if (in_array($typeofextrafield, array('varchar', 'int', 'double', 'select')))
-				{
-				    $crit=$val;
-    				$tmpkey=preg_replace('/search_options_/','',$key);
-    				$searchclass='';
-    				if (in_array($typeofextrafield, array('varchar', 'select'))) $searchclass='searchstring';
-    				if (in_array($typeofextrafield, array('int', 'double'))) $searchclass='searchnum';
-    				print '<input class="flat'.($searchclass?' '.$searchclass:'').'" size="4" type="text" name="search_options_'.$tmpkey.'" value="'.dol_escape_htmltag($search_array_options['search_options_'.$tmpkey]).'">';
-				}
-                print '</td>';
-            }
-        }
-	}
-    // Fields from hook
-	$parameters=array('arrayfields'=>$arrayfields);
-    $reshook=$hookmanager->executeHooks('printFieldListOption',$parameters);    // Note that $action and $object may have been modified by hook
-    print $hookmanager->resPrint;
-    if (! empty($arrayfields['t.datec']['checked']))
-    {
-        // Date creation
-        print '<td class="liste_titre">';
-        print '</td>';
-    }
-    if (! empty($arrayfields['t.tms']['checked']))
-    {
-        // Date modification
-        print '<td class="liste_titre">';
-        print '</td>';
-    }
-    /*if (! empty($arrayfields['u.statut']['checked']))
-    {
-        // Status
-        print '<td class="liste_titre" align="center">';
-        print $form->selectarray('search_statut', array('-1'=>'','0'=>$langs->trans('Disabled'),'1'=>$langs->trans('Enabled')),$search_statut);
-        print '</td>';
-    }*/
-    // Action column
-	print '<td class="liste_titre" align="right">';
-	print '<input type="image" class="liste_titre" name="button_search" src="'.img_picto($langs->trans("Search"),'search.png','','',1).'" value="'.dol_escape_htmltag($langs->trans("Search")).'" title="'.dol_escape_htmltag($langs->trans("Search")).'">';
-	print '<input type="image" class="liste_titre" name="button_removefilter" src="'.img_picto($langs->trans("Search"),'searchclear.png','','',1).'" value="'.dol_escape_htmltag($langs->trans("RemoveFilter")).'" title="'.dol_escape_htmltag($langs->trans("RemoveFilter")).'">';
-	print '</td>';
-	print '</tr>'."\n";
-        
-    
-    $i = 0;
-    while ($i < $num)
-    {
-        $obj = $db->fetch_object($resql);
-        if ($obj)
-        {
-            // You can use here results
-            print '<tr>';
-            
-if (! empty($arrayfields['t.nombre']['checked'])) print '<td>'.$obj->nombre.'</td>';
-
-            
-        	// Extra fields
-    		if (is_array($extrafields->attribute_label) && count($extrafields->attribute_label))
-    		{
-    		   foreach($extrafields->attribute_label as $key => $val) 
-    		   {
-    				if (! empty($arrayfields["ef.".$key]['checked'])) 
-    				{
-    					print '<td';
-    					$align=$extrafields->getAlignFlag($key);
-    					if ($align) print ' align="'.$align.'"';
-    					print '>';
-    					$tmpkey='options_'.$key;
-    					print $extrafields->showOutputField($key, $obj->$tmpkey, '', 1);
-    					print '</td>';
-    				}
-    		   }
-    		}
-            // Fields from hook
-    	    $parameters=array('arrayfields'=>$arrayfields, 'obj'=>$obj);
-    		$reshook=$hookmanager->executeHooks('printFieldListValue',$parameters);    // Note that $action and $object may have been modified by hook
-            print $hookmanager->resPrint;
-        	// Date creation
-            if (! empty($arrayfields['t.datec']['checked']))
-            {
-                print '<td align="center">';
-                print dol_print_date($db->jdate($obj->date_creation), 'dayhour');
-                print '</td>';
-            }
-            // Date modification
-            if (! empty($arrayfields['t.tms']['checked']))
-            {
-                print '<td align="center">';
-                print dol_print_date($db->jdate($obj->date_update), 'dayhour');
-                print '</td>';
-            }
-            // Status
-            /*
-            if (! empty($arrayfields['u.statut']['checked']))
-            {
-    		  $userstatic->statut=$obj->statut;
-              print '<td align="center">'.$userstatic->getLibStatut(3).'</td>';
-            }*/
-            // Action column
-            print '<td></td>';
-    		print '</tr>';
-        }
-        $i++;
-    }
-    
-    $db->free($resql);
-
-	$parameters=array('sql' => $sql);
-	$reshook=$hookmanager->executeHooks('printFieldListFooter',$parameters);    // Note that $action and $object may have been modified by hook
-	print $hookmanager->resPrint;
-
-	print "</table>\n";
-	print "</form>\n";
-	
-	$db->free($result);
-}
-else
-{
-    $error++;
-    dol_print_error($db);
-}
+		<!-- Three -->
+			<section id='three' class='wrapper style1'>
+				<div class='container'>
+					<div class='row'>
+						<div class='8u'>
+							<section>
+								<h2>Mollis ut adipiscing</h2>
+								<a href='#' class='image fit'><img src='images/pic03.jpg' alt='' /></a>
+								<p>Vis accumsan feugiat adipiscing nisl amet adipiscing accumsan blandit accumsan sapien blandit ac amet faucibus aliquet placerat commodo. Interdum ante aliquet commodo accumsan vis phasellus adipiscing. Ornare a in lacinia. Vestibulum accumsan ac metus massa tempor. Accumsan in lacinia ornare massa amet. Ac interdum ac non praesent. Cubilia lacinia interdum massa faucibus blandit nullam. Accumsan phasellus nunc integer. Accumsan euismod nunc adipiscing lacinia erat ut sit. Arcu amet. Id massa aliquet arcu accumsan lorem amet accumsan commodo odio cubilia ac eu interdum placerat placerat arcu commodo lobortis adipiscing semper ornare pellentesque.</p>
+							</section>
+						</div>
+						<div class='4u'>
+							<section>
+								<h3>Magna massa blandit</h3>
+								<p>Feugiat amet accumsan ante aliquet feugiat accumsan. Ante blandit accumsan eu amet tortor non lorem felis semper. Interdum adipiscing orci feugiat penatibus adipiscing col cubilia lorem ipsum dolor sit amet feugiat consequat.</p>
+								<ul class='actions'>
+									<li><a href='#' class='button alt'>Learn More</a></li>
+								</ul>
+							</section>
+							<hr />
+							<section>
+								<h3>Ante sed commodo</h3>
+								<ul class='alt'>
+									<li><a href='#'>Erat blandit risus vis adipiscing</a></li>
+									<li><a href='#'>Tempus ultricies faucibus amet</a></li>
+									<li><a href='#'>Arcu commodo non adipiscing quis</a></li>
+									<li><a href='#'>Accumsan vis lacinia semper</a></li>
+								</ul>
+							</section>
+						</div>
+					</div>
+				</div>
+			</section>	
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+";
+
+// Page end
+//dol_fiche_end();
 // End of page
 llxFooter();
 $db->close();
