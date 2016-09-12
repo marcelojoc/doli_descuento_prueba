@@ -90,6 +90,7 @@ if ($user->societe_id > 0)
 	//accessforbidden();
 }
 
+
 // Initialize technical object to manage hooks. Note that conf->hooks_modules contains array
 $hookmanager->initHooks(array('pruebalist'));
 $extrafields = new ExtraFields($db);
@@ -185,10 +186,8 @@ if (empty($reshook))
 
 llxHeader('','Modulo Descuentos','');
 
-$form=new Form($db);
 
-// Put here content of your page
-$title = $langs->trans('Lista de Descuentos por producto');
+
 
 // $product = new Product($db) ;
 // $result = $product->fetch(3) ; //Tester $result pour vérifier que l'accès à la base s'est bien passé
@@ -359,24 +358,14 @@ print"
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ";
 
 // Page end
 //dol_fiche_end();
+
+print "<h1> aqio esta el cuerpo </h1>";
+
+
 // End of page
 llxFooter();
 $db->close();
