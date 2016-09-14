@@ -1,39 +1,4 @@
 <?php
-/* Copyright (C) 2007-2015 Laurent Destailleur  <eldy@users.sourceforge.net>
- * Copyright (C) ---Put here your own copyright and developer email---
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- */
-
-/**
- *   	\file       Descuentos/prueba_list.php
- *		\ingroup    Descuentos
- *		\brief      This file is an example of a php page
- *					Initialy built by build_class_from_table on 2016-09-07 15:18
- */
-
-//if (! defined('NOREQUIREUSER'))  define('NOREQUIREUSER','1');
-//if (! defined('NOREQUIREDB'))    define('NOREQUIREDB','1');
-//if (! defined('NOREQUIRESOC'))   define('NOREQUIRESOC','1');
-//if (! defined('NOREQUIRETRAN'))  define('NOREQUIRETRAN','1');
-//if (! defined('NOCSRFCHECK'))    define('NOCSRFCHECK','1');			// Do not check anti CSRF attack test
-//if (! defined('NOSTYLECHECK'))   define('NOSTYLECHECK','1');			// Do not check style html tag into posted data
-//if (! defined('NOTOKENRENEWAL')) define('NOTOKENRENEWAL','1');		// Do not check anti POST attack test
-//if (! defined('NOREQUIREMENU'))  define('NOREQUIREMENU','1');			// If there is no need to load and show top and left menu
-//if (! defined('NOREQUIREHTML'))  define('NOREQUIREHTML','1');			// If we don't need to load the html.form.class.php
-//if (! defined('NOREQUIREAJAX'))  define('NOREQUIREAJAX','1');
-//if (! defined("NOLOGIN"))        define("NOLOGIN",'1');				// If this page is public (can be called outside logged session)
 
 // Change this following line to use the correct relative path (../, ../../, etc)
 $res=0;
@@ -87,7 +52,7 @@ $socid=0;
 if ($user->societe_id > 0)
 {
     $socid = $user->societe_id;
-	//accessforbidden();
+	accessforbidden();
 }
 
 
@@ -200,172 +165,145 @@ llxHeader('','Modulo Descuentos','');
 
 
 
-$resql=$db->query("select * from llx_societe where rowid = 116");
- if ($resql)
- {
-         $num = $db->num_rows($resql);
-         $i = 0;
-         if ($num)
-         {
-                 while ($i < $num)
-                 {
-                         $obj = $db->fetch_object($resql);
-                         if ($obj)
-                         {
-                                 // You can use here results
-                                 print $obj->nom;
-                                 //print $obj->name_alias;
-                         }
-                         $i++;
-                 }
-         }
- }else{
+// $resql=$db->query("select * from llx_societe where rowid = 116");
 
-	 print "nada";
- }
+//  if ($resql)
+//  {
+//          $num = $db->num_rows($resql);
+//          $i = 0;
+//          if ($num)
+//          {
+//                  while ($i < $num)
+//                  {
+//                          $obj = $db->fetch_object($resql);
+//                          if ($obj)
+//                          {
+//                                  // You can use here results
+//                                  print $obj->nom;
+//                                  //print $obj->name_alias;
+//                          }
+//                          $i++;
+//                  }
+//          }
+//  }else{
 
-print"
+// 	 print "nada";
+//  }
 
 
-	<header id='header' class='skel-layers-fixed'>
-				<h1><a href='#'>Ion</a></h1>
-				<nav id='nav'>
-					<ul>
-						<li><a href='index.html'>Home</a></li>
-						<li><a href='left-sidebar.html'>Left Sidebar</a></li>
-						<li><a href='right-sidebar.html'>Right Sidebar</a></li>
-						<li><a href='no-sidebar.html'>No Sidebar</a></li>
-						<li><a href='#' class='button special'>Sign Up</a></li>
-					</ul>
-				</nav>
-			</header>
 
-		<!-- Banner -->
-			<section id='banner'>
-				<div class='inner'>
-					<h2>This is Ion</h2>
-					<p>A free responsive template by <a href='http://templated.co'>TEMPLATED</a></p>
-					<ul class='actions'>
-						<li><a href='#content' class='button big special'>Sign Up</a></li>
-						<li><a href='#elements' class='button big alt'>Learn More</a></li>
-					</ul>
+
+dol_fiche_head();
+
+
+
+print '
+
+
+
+<div class="container">
+
+
+<!-------->
+		<div id="content">
+			<ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+				<li class="active"><a href="#red" data-toggle="tab">Red</a></li>
+				<li><a href="#orange" data-toggle="tab">Orange</a></li>
+
+			</ul>
+			<div id="my-tab-content" class="tab-content">
+				<div class="tab-pane active" id="red">
+					<h1>Red</h1>
+					<p>red red red red red red</p>
 				</div>
-			</section>
-
-		<!-- One -->
-			<section id='one' class='wrapper style1'>
-				<header class='major'>
-					<h2>Ipsum feugiat consequat</h2>
-					<p>Tempus adipiscing commodo ut aliquam blandit</p>
-
-					<input type='text'>
-				</header>
-				<div class='container'>
-					<div class='row'>
-						<div class='4u'>
-							<section class='special box'>
-								<i class='icon fa-area-chart major'></i>
-								<h3>Justo placerat</h3>
-								<p>Eu non col commodo accumsan ante mi. Commodo consectetur sed mi adipiscing accumsan ac nunc tincidunt lobortis.</p>
-							</section>
-						</div>
-						<div class='4u'>
-							<section class='special box'>
-								<i class='icon fa-refresh major'></i>
-								<h3>Blandit quis curae</h3>
-								<p>Eu non col commodo accumsan ante mi. Commodo consectetur sed mi adipiscing accumsan ac nunc tincidunt lobortis.</p>
-							</section>
-						</div>
-						<div class='4u'>
-							<section class='special box'>
-								<i class='icon fa-cog major'></i>
-								<h3>Amet sed accumsan</h3>
-								<p>Eu non col commodo accumsan ante mi. Commodo consectetur sed mi adipiscing accumsan ac nunc tincidunt lobortis.</p>
-							</section>
-						</div>
-					</div>
+				<div class="tab-pane" id="orange">
+					<h1>Orange</h1>
+					<p>orange orange orange orange orange</p>
 				</div>
-			</section>
-			
-		<!-- Two -->
-			<section id='two' class='wrapper style2'>
-				<header class='major'>
-					<h2>Commodo accumsan aliquam</h2>
-					<p>Amet nisi nunc lorem accumsan</p>
-				</header>
-				<div class='container'>
-					<div class='row'>
-						<div class='6u'>
-							<section class='special'>
-								<a href='#' class='image fit'><img src='images/pic01.jpg' alt='' /></a>
-								<h3>Mollis adipiscing nisl</h3>
-								<p>Eget mi ac magna cep lobortis faucibus accumsan enim lacinia adipiscing metus urna adipiscing cep commodo id. Ac quis arcu amet. Arcu nascetur lorem adipiscing non faucibus odio nullam arcu lobortis. Aliquet ante feugiat. Turpis aliquet ac posuere volutpat lorem arcu aliquam lorem.</p>
-								<ul class='actions'>
-									<li><a href='#' class='button alt'>Learn More</a></li>
-								</ul>
-							</section>
-						</div>
-						<div class='6u'>
-							<section class='special'>
-								<a href='#' class='image fit'><img src='images/pic02.jpg' alt='' /></a>
-								<h3>Neque ornare adipiscing</h3>
-								<p>Eget mi ac magna cep lobortis faucibus accumsan enim lacinia adipiscing metus urna adipiscing cep commodo id. Ac quis arcu amet. Arcu nascetur lorem adipiscing non faucibus odio nullam arcu lobortis. Aliquet ante feugiat. Turpis aliquet ac posuere volutpat lorem arcu aliquam lorem.</p>
-								<ul class='actions'>
-									<li><a href='#' class='button alt'>Learn More</a></li>
-								</ul>
-							</section>
-						</div>
-					</div>
-				</div>
-			</section>
+				
+			</div>
 
-		<!-- Three -->
-			<section id='three' class='wrapper style1'>
-				<div class='container'>
-					<div class='row'>
-						<div class='8u'>
-							<section>
-								<h2>Mollis ut adipiscing</h2>
-								<a href='#' class='image fit'><img src='images/pic03.jpg' alt='' /></a>
-								<p>Vis accumsan feugiat adipiscing nisl amet adipiscing accumsan blandit accumsan sapien blandit ac amet faucibus aliquet placerat commodo. Interdum ante aliquet commodo accumsan vis phasellus adipiscing. Ornare a in lacinia. Vestibulum accumsan ac metus massa tempor. Accumsan in lacinia ornare massa amet. Ac interdum ac non praesent. Cubilia lacinia interdum massa faucibus blandit nullam. Accumsan phasellus nunc integer. Accumsan euismod nunc adipiscing lacinia erat ut sit. Arcu amet. Id massa aliquet arcu accumsan lorem amet accumsan commodo odio cubilia ac eu interdum placerat placerat arcu commodo lobortis adipiscing semper ornare pellentesque.</p>
-							</section>
-						</div>
-						<div class='4u'>
-							<section>
-								<h3>Magna massa blandit</h3>
-								<p>Feugiat amet accumsan ante aliquet feugiat accumsan. Ante blandit accumsan eu amet tortor non lorem felis semper. Interdum adipiscing orci feugiat penatibus adipiscing col cubilia lorem ipsum dolor sit amet feugiat consequat.</p>
-								<ul class='actions'>
-									<li><a href='#' class='button alt'>Learn More</a></li>
-								</ul>
-							</section>
-							<hr />
-							<section>
-								<h3>Ante sed commodo</h3>
-								<ul class='alt'>
-									<li><a href='#'>Erat blandit risus vis adipiscing</a></li>
-									<li><a href='#'>Tempus ultricies faucibus amet</a></li>
-									<li><a href='#'>Arcu commodo non adipiscing quis</a></li>
-									<li><a href='#'>Accumsan vis lacinia semper</a></li>
-								</ul>
-							</section>
-						</div>
-					</div>
-				</div>
-			</section>	
+		</div>
 
+
+
+<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">Lista escalonada de Precios</div>
+
+  <!-- Table -->
+<table class="table">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Producto</th>
+            <th>Rango</th>
+            <th>Valor con Descuento</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>Rocky</td>
+            <td> 1 a 11 latas</td>
+            <td>$12.15</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Peter</td>
+            <td>Parker</td>
+            <td>peterparker@mail.com</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>John</td>
+            <td>Rambo</td>
+            <td>johnrambo@mail.com</td>
+        </tr>
+    </tbody>
+</table>
+ <div class="panel-footer">Panel footer</div>
+</div>
+
+
+
+<nav aria-label="Page navigation">
+  <ul class="pagination">
+    <li>
+      <a href="#" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    <li><a href="#">1</a></li>
+    <li><a href="#">2</a></li>
+    <li><a href="#">3</a></li>
+    <li><a href="#">4</a></li>
+    <li><a href="#">5</a></li>
+    <li>
+      <a href="#" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  </ul>
+</nav>
 
 
 
 
 
-";
+
+</div> <!-- container -->
+
+</body>
+</html>
+';
 
 // Page end
-//dol_fiche_end();
+dol_fiche_end();
 
-print "<h1> aqio esta el cuerpo </h1>";
+//print "<h1> aqui esta el cuerpo </h1>";
 
 
 // End of page
-llxFooter();
+//llxFooter();
 $db->close();
