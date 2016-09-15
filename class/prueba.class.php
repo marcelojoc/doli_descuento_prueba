@@ -198,6 +198,77 @@ class Prueba extends CommonObject
 		}
 	}
 
+
+
+//===========================================
+
+public function traer ($id)
+{
+
+
+
+$resql = $this->db->query("select * from llx_societe where rowid = $id");
+
+
+		if ($resql) {
+			$numrows = $this->db->num_rows($resql);
+
+			
+			if ($numrows) {
+				$obj = $this->db->fetch_object($resql);
+
+				$this->id = $obj->rowid;
+				
+				$this->nombre = $obj->nom;
+
+				return $this;
+			}
+			$this->db->free($resql);
+
+			if ($numrows) {
+				return 1;
+			} else {
+				return 0;
+			}
+		} else {
+			$this->errors[] = 'Error ' . $this->db->lasterror();
+			dol_syslog(__METHOD__ . ' ' . join(',', $this->errors), LOG_ERR);
+
+			return -1;
+		}
+
+
+
+
+
+}
+
+
+
+
+//=============================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	/**
 	 * Load object in memory from the database
 	 *

@@ -191,11 +191,9 @@ llxHeader('','Modulo Descuentos','');
 //  }
 
 
-
-
 dol_fiche_head();
 
-
+$result=$object->traer(116);
 
 print '
 
@@ -204,21 +202,142 @@ print '
 <div class="container">
 
 
+<h3>Modulo Descuentos <small>Prueba</small></h3>
 <!-------->
 		<div id="content">
 			<ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
-				<li class="active"><a href="#red" data-toggle="tab">Red</a></li>
-				<li><a href="#orange" data-toggle="tab">Orange</a></li>
+				<li class="active"><a href="#red" data-toggle="tab">Descuentos</a></li>
+				<li><a href="#about" data-toggle="tab">Acerca De</a></li>
 
 			</ul>
 			<div id="my-tab-content" class="tab-content">
 				<div class="tab-pane active" id="red">
-					<h1>Red</h1>
-					<p>red red red red red red</p>
+
+
+                <br>
+
+                <div>
+                
+                
+
+                            <div class="panel panel-default">
+                                <!-- Default panel contents -->
+                                <div class="panel-heading">Datos</div>
+
+                                <div class="panel-body">
+                                <p>.Aqui el formulario.</p>
+                                </div>
+
+                            </div>
+
+                
+                </div>
+
+
+                <hr>
+
+
+
+
+                    <div class="panel panel-default">
+                    <!-- Default panel contents -->
+                    <div class="panel-heading">Lista escalonada de Precios</div>
+
+                    <!-- Table -->
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Producto</th>
+                                <th>Rango</th>
+                                <th>Valor con Descuento</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Rocky</td>
+                                <td> 1 a 11 latas</td>
+                                <td>$12.15</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Peter</td>
+                                <td>Parker</td>
+                                <td>peterparker@mail.com</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>John</td>
+                                <td>Rambo</td>
+                                <td>johnrambo@mail.com</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="panel-footer">Panel footer</div>
+                    </div>
+
+
+
+                    <nav aria-label="Page navigation">
+                    <ul class="pagination">
+                        <li>
+                        <a href="#" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                        </li>
+                        <li><a href="#">1</a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>
+                        <li><a href="#">5</a></li>
+                        <li>
+                        <a href="#" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                        </li>
+                    </ul>
+                    </nav>
+
+
+
+
+
+<!--panel de acerca de-->
 				</div>
-				<div class="tab-pane" id="orange">
-					<h1>Orange</h1>
-					<p>orange orange orange orange orange</p>
+				<div class="tab-pane" id="about">
+
+
+
+                            <br>
+                            <div class="panel panel-default">
+                            <div class="panel-body">
+                                
+                                                <address>
+                                                <strong>TMS Group</strong><br>
+                                                Avenida Principal 123<br>
+                                                Ciudad, Provincia 00000<br>
+                                                <abbr title="Phone">Tel:</abbr> 9XX 123 456
+                                                </address>
+                                                
+                                                <address>
+                                                <strong>Nombre Apellido</strong><br>
+                                                <a href="mailto:#">nombre.apellido@ejemplo.com</a>
+                                                </address>
+
+
+                            </div>
+                            </div>
+
+
+
+
+
+
+
+
+
+
 				</div>
 				
 			</div>
@@ -227,65 +346,7 @@ print '
 
 
 
-<div class="panel panel-default">
-  <!-- Default panel contents -->
-  <div class="panel-heading">Lista escalonada de Precios</div>
 
-  <!-- Table -->
-<table class="table">
-    <thead>
-        <tr>
-            <th>#</th>
-            <th>Producto</th>
-            <th>Rango</th>
-            <th>Valor con Descuento</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>1</td>
-            <td>Rocky</td>
-            <td> 1 a 11 latas</td>
-            <td>$12.15</td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>Peter</td>
-            <td>Parker</td>
-            <td>peterparker@mail.com</td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <td>John</td>
-            <td>Rambo</td>
-            <td>johnrambo@mail.com</td>
-        </tr>
-    </tbody>
-</table>
- <div class="panel-footer">Panel footer</div>
-</div>
-
-
-
-<nav aria-label="Page navigation">
-  <ul class="pagination">
-    <li>
-      <a href="#" aria-label="Previous">
-        <span aria-hidden="true">&laquo;</span>
-      </a>
-    </li>
-    <li><a href="#">1</a></li>
-    <li><a href="#">2</a></li>
-    <li><a href="#">3</a></li>
-    <li><a href="#">4</a></li>
-    <li><a href="#">5</a></li>
-    <li>
-      <a href="#" aria-label="Next">
-        <span aria-hidden="true">&raquo;</span>
-      </a>
-    </li>
-  </ul>
-</nav>
 
 
 
