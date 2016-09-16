@@ -47,6 +47,7 @@ $extrafields = new ExtraFields($db);
 
 
 
+
 /*******************************************************************
 * ACTIONS
 *
@@ -163,6 +164,41 @@ if (empty($reshook))
 			else setEventMessages($object->error, null, 'errors');
 		}
 	}
+
+
+/*
+
+esta es una modificacion mia probando traer datos desde la clase prueba.class
+
+
+
+
+*/
+
+	if ($action == 'prueba')
+	{
+
+		
+		$result=$object->traer(3);
+
+		//echo($result);
+		// if ($result > 0)
+		// {
+		// 	// Delete OK
+		// 	setEventMessages("RecordDeleted", null, 'mesgs');
+		// 	header("Location: ".dol_buildpath('/Descuentos/list.php',1));
+		// 	exit;
+		// }
+		// else
+		// {
+		// 	if (! empty($object->errors)) setEventMessages(null, $object->errors, 'errors');
+		// 	else setEventMessages($object->error, null, 'errors');
+		// }
+	}
+
+
+
+
 }
 
 

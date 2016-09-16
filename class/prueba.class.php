@@ -171,7 +171,10 @@ class Prueba extends CommonObject
 			$sql .= ' WHERE t.rowid = ' . $id;
 		}
 
+
 		$resql = $this->db->query($sql);
+
+
 		if ($resql) {
 			$numrows = $this->db->num_rows($resql);
 			if ($numrows) {
@@ -181,7 +184,6 @@ class Prueba extends CommonObject
 				
 				$this->nombre = $obj->nombre;
 
-				
 			}
 			$this->db->free($resql);
 
@@ -207,9 +209,9 @@ public function traer ($id)
 
 
 
-$resql = $this->db->query("select * from llx_societe where rowid = $id");
+$resql = $this->db->query("select * from llx_prueba ");
 
-
+//echo($resql);
 		if ($resql) {
 			$numrows = $this->db->num_rows($resql);
 
@@ -225,11 +227,11 @@ $resql = $this->db->query("select * from llx_societe where rowid = $id");
 			}
 			$this->db->free($resql);
 
-			if ($numrows) {
-				return 1;
-			} else {
-				return 0;
-			}
+			// if ($numrows) {
+			// 	return 1;
+			// } else {
+			// 	return 0;
+			// }
 		} else {
 			$this->errors[] = 'Error ' . $this->db->lasterror();
 			dol_syslog(__METHOD__ . ' ' . join(',', $this->errors), LOG_ERR);
@@ -237,34 +239,12 @@ $resql = $this->db->query("select * from llx_societe where rowid = $id");
 			return -1;
 		}
 
-
-
-
-
 }
 
 
 
 
 //=============================
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
