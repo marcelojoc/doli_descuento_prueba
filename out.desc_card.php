@@ -1,23 +1,41 @@
 <?php
+/* Copyright (C) 2007-2015 Laurent Destailleur  <eldy@users.sourceforge.net>
+ * Copyright (C) ---Put here your own copyright and developer email---
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
 
+/**
+ *   	\file       descuentos/desc_card.php
+ *		\ingroup    descuentos
+ *		\brief      This file is an example of a php page
+ *					Initialy built by build_class_from_table on 2016-09-20 16:02
+ */
 
+//if (! defined('NOREQUIREUSER'))  define('NOREQUIREUSER','1');
+//if (! defined('NOREQUIREDB'))    define('NOREQUIREDB','1');
+//if (! defined('NOREQUIRESOC'))   define('NOREQUIRESOC','1');
+//if (! defined('NOREQUIRETRAN'))  define('NOREQUIRETRAN','1');
+//if (! defined('NOCSRFCHECK'))    define('NOCSRFCHECK','1');			// Do not check anti CSRF attack test
+//if (! defined('NOSTYLECHECK'))   define('NOSTYLECHECK','1');			// Do not check style html tag into posted data
+//if (! defined('NOTOKENRENEWAL')) define('NOTOKENRENEWAL','1');		// Do not check anti POST attack test
+//if (! defined('NOREQUIREMENU'))  define('NOREQUIREMENU','1');			// If there is no need to load and show top and left menu
+//if (! defined('NOREQUIREHTML'))  define('NOREQUIREHTML','1');			// If we don't need to load the html.form.class.php
+//if (! defined('NOREQUIREAJAX'))  define('NOREQUIREAJAX','1');
+//if (! defined("NOLOGIN"))        define("NOLOGIN",'1');				// If this page is public (can be called outside logged session)
 
-
-/*
-
-CREATE TABLE `dolibar`.`llx_desc`( 
-`rowid` INT(25) NOT NULL AUTO_INCREMENT, 
-`fk_product` INT(25), 
-`linf` INT(30), 
-`lsup` INT(30), 
-`description` VARCHAR(150), 
-`estado` INT(3), 
-`fk_regla` INT(25), 
-`tms` DATETIME, 
-`fk_desc_log` INT(15), PRIMARY KEY (`rowid`) ) 
-ENGINE=INNODB CHARSET=utf8 COLLATE=utf8_spanish_ci; 
-
-*/
+// Change this following line to use the correct relative path (../, ../../, etc)
 $res=0;
 if (! $res && file_exists("../main.inc.php")) $res=@include '../main.inc.php';					// to work if your module directory is into dolibarr root htdocs directory
 if (! $res && file_exists("../../main.inc.php")) $res=@include '../../main.inc.php';			// to work if your module directory is into a subdir of root htdocs directory
@@ -26,37 +44,39 @@ if (! $res && file_exists("../../../../dolibarr/htdocs/main.inc.php")) $res=@inc
 if (! $res) die("Include of main fails");
 // Change this following line to use the correct relative path from htdocs
 include_once(DOL_DOCUMENT_ROOT.'/core/class/html.formcompany.class.php');
-dol_include_once('/Descuentos/class/prueba.class.php');
+dol_include_once('/descuentos/class/desc.class.php');
 
 // Load traductions files requiredby by page
-$langs->load("Descuentos");
+$langs->load("descuentos");
 $langs->load("other");
 
-// parametros Get que recibis en la url
+// Get parameters
 $id			= GETPOST('id','int');
 $action		= GETPOST('action','alpha');
 $backtopage = GETPOST('backtopage');
 $myparam	= GETPOST('myparam','alpha');
 
 
-$search_nombre=GETPOST('search_nombre','alpha');
+$search_fk_product=GETPOST('search_fk_product','int');
+$search_linf=GETPOST('search_linf','int');
+$search_lsup=GETPOST('search_lsup','int');
+$search_description=GETPOST('search_description','alpha');
+$search_estado=GETPOST('search_estado','int');
+$search_fk_regla=GETPOST('search_fk_regla','int');
+$search_fk_desc_log=GETPOST('search_fk_desc_log','int');
 
 
 
 // Protection if external user
-// if ($user->societe_id > 0)
-// {
-// 	accessforbidden();
-// }
+if ($user->societe_id > 0)
+{
+	//accessforbidden();
+}
 
-// si  no hay valores get pasados ejecuta la accion list (listar)
 if (empty($action) && empty($id) && empty($ref)) $action='list';
 
 // Load object if id or ref is provided as parameter
-
-
-$object=new Prueba($db);
-
+$object=new Desc($db);
 if (($id > 0 || ! empty($ref)) && $action != 'add')
 {
 	$result=$object->fetch($id,$ref);
@@ -64,7 +84,7 @@ if (($id > 0 || ! empty($ref)) && $action != 'add')
 }
 
 // Initialize technical object to manage hooks of modules. Note that conf->hooks_modules contains array array
-$hookmanager->initHooks(array('prueba'));
+$hookmanager->initHooks(array('desc'));
 $extrafields = new ExtraFields($db);
 
 
@@ -86,7 +106,7 @@ if (empty($reshook))
 	{
 		if (GETPOST('cancel'))
 		{
-			$urltogo=$backtopage?$backtopage:dol_buildpath('/Descuentos/list.php',1);
+			$urltogo=$backtopage?$backtopage:dol_buildpath('/descuentos/list.php',1);
 			header("Location: ".$urltogo);
 			exit;
 		}
@@ -95,7 +115,13 @@ if (empty($reshook))
 
 		/* object_prop_getpost_prop */
 		
-	$object->nombre=GETPOST('nombre','alpha');
+	$object->fk_product=GETPOST('fk_product','int');
+	$object->linf=GETPOST('linf','int');
+	$object->lsup=GETPOST('lsup','int');
+	$object->description=GETPOST('description','alpha');
+	$object->estado=GETPOST('estado','int');
+	$object->fk_regla=GETPOST('fk_regla','int');
+	$object->fk_desc_log=GETPOST('fk_desc_log','int');
 
 		
 
@@ -111,7 +137,7 @@ if (empty($reshook))
 			if ($result > 0)
 			{
 				// Creation OK
-				$urltogo=$backtopage?$backtopage:dol_buildpath('/Descuentos/list.php',1);
+				$urltogo=$backtopage?$backtopage:dol_buildpath('/descuentos/list.php',1);
 				header("Location: ".$urltogo);
 				exit;
 			}
@@ -137,7 +163,13 @@ if (empty($reshook))
 		$error=0;
 
 		
-	$object->nombre=GETPOST('nombre','alpha');
+	$object->fk_product=GETPOST('fk_product','int');
+	$object->linf=GETPOST('linf','int');
+	$object->lsup=GETPOST('lsup','int');
+	$object->description=GETPOST('description','alpha');
+	$object->estado=GETPOST('estado','int');
+	$object->fk_regla=GETPOST('fk_regla','int');
+	$object->fk_desc_log=GETPOST('fk_desc_log','int');
 
 		
 
@@ -176,7 +208,7 @@ if (empty($reshook))
 		{
 			// Delete OK
 			setEventMessages("RecordDeleted", null, 'mesgs');
-			header("Location: ".dol_buildpath('/Descuentos/list.php',1));
+			header("Location: ".dol_buildpath('/descuentos/list.php',1));
 			exit;
 		}
 		else
@@ -185,41 +217,6 @@ if (empty($reshook))
 			else setEventMessages($object->error, null, 'errors');
 		}
 	}
-
-
-/*
-
-esta es una modificacion mia probando traer datos desde la clase prueba.class
-
-
-
-
-*/
-
-	if ($action == 'prueba')
-	{
-
-		
-		$result=$object->todo();
-
-		//echo($result);
-		// if ($result > 0)
-		// {
-		// 	// Delete OK
-		// 	setEventMessages("RecordDeleted", null, 'mesgs');
-		// 	header("Location: ".dol_buildpath('/Descuentos/list.php',1));
-		// 	exit;
-		// }
-		// else
-		// {
-		// 	if (! empty($object->errors)) setEventMessages(null, $object->errors, 'errors');
-		// 	else setEventMessages($object->error, null, 'errors');
-		// }
-	}
-
-
-
-
 }
 
 
@@ -231,15 +228,9 @@ esta es una modificacion mia probando traer datos desde la clase prueba.class
 * Put here all code to build page
 ****************************************************/
 
-llxHeader('','card_ Page','');
+llxHeader('','MyPageName','');
 
- //$result= $object->lines;
-
- var_dump($result);
-
-// print $result;
-
-//$form=new Form($db);
+$form=new Form($db);
 
 
 // Put here content of your page
@@ -274,7 +265,13 @@ if ($action == 'create')
 	print '<table class="border centpercent">'."\n";
 	// print '<tr><td class="fieldrequired">'.$langs->trans("Label").'</td><td><input class="flat" type="text" size="36" name="label" value="'.$label.'"></td></tr>';
 	// 
-print '<tr><td class="fieldrequired">'.$langs->trans("Fieldnombre").'</td><td><input class="flat" type="text" name="nombre" value="'.GETPOST('nombre').'"></td></tr>';
+print '<tr><td class="fieldrequired">'.$langs->trans("Fieldfk_product").'</td><td><input class="flat" type="text" name="fk_product" value="'.GETPOST('fk_product').'"></td></tr>';
+print '<tr><td class="fieldrequired">'.$langs->trans("Fieldlinf").'</td><td><input class="flat" type="text" name="linf" value="'.GETPOST('linf').'"></td></tr>';
+print '<tr><td class="fieldrequired">'.$langs->trans("Fieldlsup").'</td><td><input class="flat" type="text" name="lsup" value="'.GETPOST('lsup').'"></td></tr>';
+print '<tr><td class="fieldrequired">'.$langs->trans("Fielddescription").'</td><td><input class="flat" type="text" name="description" value="'.GETPOST('description').'"></td></tr>';
+print '<tr><td class="fieldrequired">'.$langs->trans("Fieldestado").'</td><td><input class="flat" type="text" name="estado" value="'.GETPOST('estado').'"></td></tr>';
+print '<tr><td class="fieldrequired">'.$langs->trans("Fieldfk_regla").'</td><td><input class="flat" type="text" name="fk_regla" value="'.GETPOST('fk_regla').'"></td></tr>';
+print '<tr><td class="fieldrequired">'.$langs->trans("Fieldfk_desc_log").'</td><td><input class="flat" type="text" name="fk_desc_log" value="'.GETPOST('fk_desc_log').'"></td></tr>';
 
 	print '</table>'."\n";
 
@@ -302,7 +299,13 @@ if (($id || $ref) && $action == 'edit')
 	print '<table class="border centpercent">'."\n";
 	// print '<tr><td class="fieldrequired">'.$langs->trans("Label").'</td><td><input class="flat" type="text" size="36" name="label" value="'.$label.'"></td></tr>';
 	// 
-print '<tr><td class="fieldrequired">'.$langs->trans("Fieldnombre").'</td><td><input class="flat" type="text" name="nombre" value="'.$object->nombre.'"></td></tr>';
+print '<tr><td class="fieldrequired">'.$langs->trans("Fieldfk_product").'</td><td><input class="flat" type="text" name="fk_product" value="'.$object->fk_product.'"></td></tr>';
+print '<tr><td class="fieldrequired">'.$langs->trans("Fieldlinf").'</td><td><input class="flat" type="text" name="linf" value="'.$object->linf.'"></td></tr>';
+print '<tr><td class="fieldrequired">'.$langs->trans("Fieldlsup").'</td><td><input class="flat" type="text" name="lsup" value="'.$object->lsup.'"></td></tr>';
+print '<tr><td class="fieldrequired">'.$langs->trans("Fielddescription").'</td><td><input class="flat" type="text" name="description" value="'.$object->description.'"></td></tr>';
+print '<tr><td class="fieldrequired">'.$langs->trans("Fieldestado").'</td><td><input class="flat" type="text" name="estado" value="'.$object->estado.'"></td></tr>';
+print '<tr><td class="fieldrequired">'.$langs->trans("Fieldfk_regla").'</td><td><input class="flat" type="text" name="fk_regla" value="'.$object->fk_regla.'"></td></tr>';
+print '<tr><td class="fieldrequired">'.$langs->trans("Fieldfk_desc_log").'</td><td><input class="flat" type="text" name="fk_desc_log" value="'.$object->fk_desc_log.'"></td></tr>';
 
 	print '</table>';
 	
@@ -332,7 +335,13 @@ if ($id && (empty($action) || $action == 'view' || $action == 'delete'))
 	print '<table class="border centpercent">'."\n";
 	// print '<tr><td class="fieldrequired">'.$langs->trans("Label").'</td><td><input class="flat" type="text" size="36" name="label" value="'.$label.'"></td></tr>';
 	// 
-print '<tr><td class="fieldrequired">'.$langs->trans("Fieldnombre").'</td><td>$object->nombre</td></tr>';
+print '<tr><td class="fieldrequired">'.$langs->trans("Fieldfk_product").'</td><td>$object->fk_product</td></tr>';
+print '<tr><td class="fieldrequired">'.$langs->trans("Fieldlinf").'</td><td>$object->linf</td></tr>';
+print '<tr><td class="fieldrequired">'.$langs->trans("Fieldlsup").'</td><td>$object->lsup</td></tr>';
+print '<tr><td class="fieldrequired">'.$langs->trans("Fielddescription").'</td><td>$object->description</td></tr>';
+print '<tr><td class="fieldrequired">'.$langs->trans("Fieldestado").'</td><td>$object->estado</td></tr>';
+print '<tr><td class="fieldrequired">'.$langs->trans("Fieldfk_regla").'</td><td>$object->fk_regla</td></tr>';
+print '<tr><td class="fieldrequired">'.$langs->trans("Fieldfk_desc_log").'</td><td>$object->fk_desc_log</td></tr>';
 
 	print '</table>';
 	
@@ -347,12 +356,12 @@ print '<tr><td class="fieldrequired">'.$langs->trans("Fieldnombre").'</td><td>$o
 
 	if (empty($reshook))
 	{
-		if ($user->rights->Descuentos->write)
+		if ($user->rights->descuentos->write)
 		{
 			print '<div class="inline-block divButAction"><a class="butAction" href="'.$_SERVER["PHP_SELF"].'?id='.$object->id.'&amp;action=edit">'.$langs->trans("Modify").'</a></div>'."\n";
 		}
 
-		if ($user->rights->Descuentos->delete)
+		if ($user->rights->descuentos->delete)
 		{
 			print '<div class="inline-block divButAction"><a class="butActionDelete" href="'.$_SERVER["PHP_SELF"].'?id='.$object->id.'&amp;action=delete">'.$langs->trans('Delete').'</a></div>'."\n";
 		}

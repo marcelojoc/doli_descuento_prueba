@@ -20,8 +20,8 @@
  */
 
 /**
- * \file    Descuentos/prueba.class.php
- * \ingroup Descuentos
+ * \file    descuentos/desc.class.php
+ * \ingroup descuentos
  * \brief   This file is an example for a CRUD class file (Create/Read/Update/Delete)
  *          Put some comments here
  */
@@ -32,31 +32,38 @@ require_once DOL_DOCUMENT_ROOT . '/core/class/commonobject.class.php';
 //require_once DOL_DOCUMENT_ROOT . '/product/class/product.class.php';
 
 /**
- * Class Prueba
+ * Class Desc
  *
  * Put here description of your class
  * @see CommonObject
  */
-class Prueba extends CommonObject
+class Desc extends CommonObject
 {
 	/**
 	 * @var string Id to identify managed objects
 	 */
-	public $element = 'prueba';
+	public $element = 'desc';
 	/**
 	 * @var string Name of table without prefix where object is stored
 	 */
-	public $table_element = 'prueba';
+	public $table_element = 'desc';
 
 	/**
-	 * @var PruebaLine[] Lines
+	 * @var DescLine[] Lines
 	 */
 	public $lines = array();
 
 	/**
 	 */
 	
-	public $nombre;
+	public $fk_product;
+	public $linf;
+	public $lsup;
+	public $description;
+	public $estado;
+	public $fk_regla;
+	public $tms = '';
+	public $fk_desc_log;
 
 	/**
 	 */
@@ -89,8 +96,26 @@ class Prueba extends CommonObject
 
 		// Clean parameters
 		
-		if (isset($this->nombre)) {
-			 $this->nombre = trim($this->nombre);
+		if (isset($this->fk_product)) {
+			 $this->fk_product = trim($this->fk_product);
+		}
+		if (isset($this->linf)) {
+			 $this->linf = trim($this->linf);
+		}
+		if (isset($this->lsup)) {
+			 $this->lsup = trim($this->lsup);
+		}
+		if (isset($this->description)) {
+			 $this->description = trim($this->description);
+		}
+		if (isset($this->estado)) {
+			 $this->estado = trim($this->estado);
+		}
+		if (isset($this->fk_regla)) {
+			 $this->fk_regla = trim($this->fk_regla);
+		}
+		if (isset($this->fk_desc_log)) {
+			 $this->fk_desc_log = trim($this->fk_desc_log);
 		}
 
 		
@@ -101,22 +126,31 @@ class Prueba extends CommonObject
 		// Insert request
 		$sql = 'INSERT INTO ' . MAIN_DB_PREFIX . $this->table_element . '(';
 		
-		$sql.= 'nombre';
+		$sql.= 'fk_product,';
+		$sql.= 'linf,';
+		$sql.= 'lsup,';
+		$sql.= 'description,';
+		$sql.= 'estado,';
+		$sql.= 'fk_regla,';
+		$sql.= 'fk_desc_log';
 
 		
 		$sql .= ') VALUES (';
 		
-		$sql .= ' '.(! isset($this->nombre)?'NULL':"'".$this->db->escape($this->nombre)."'");
+		$sql .= ' '.(! isset($this->fk_product)?'NULL':$this->fk_product).',';
+		$sql .= ' '.(! isset($this->linf)?'NULL':$this->linf).',';
+		$sql .= ' '.(! isset($this->lsup)?'NULL':$this->lsup).',';
+		$sql .= ' '.(! isset($this->description)?'NULL':"'".$this->db->escape($this->description)."'").',';
+		$sql .= ' '.(! isset($this->estado)?'NULL':$this->estado).',';
+		$sql .= ' '.(! isset($this->fk_regla)?'NULL':$this->fk_regla).',';
+		$sql .= ' '.(! isset($this->fk_desc_log)?'NULL':$this->fk_desc_log);
 
 		
 		$sql .= ')';
 
 		$this->db->begin();
 
-
 		$resql = $this->db->query($sql);
-
-
 		if (!$resql) {
 			$error ++;
 			$this->errors[] = 'Error ' . $this->db->lasterror();
@@ -164,7 +198,14 @@ class Prueba extends CommonObject
 		$sql = 'SELECT';
 		$sql .= ' t.rowid,';
 		
-		$sql .= " t.nombre";
+		$sql .= " t.fk_product,";
+		$sql .= " t.linf,";
+		$sql .= " t.lsup,";
+		$sql .= " t.description,";
+		$sql .= " t.estado,";
+		$sql .= " t.fk_regla,";
+		$sql .= " t.tms,";
+		$sql .= " t.fk_desc_log";
 
 		
 		$sql .= ' FROM ' . MAIN_DB_PREFIX . $this->table_element . ' as t';
@@ -174,10 +215,7 @@ class Prueba extends CommonObject
 			$sql .= ' WHERE t.rowid = ' . $id;
 		}
 
-
 		$resql = $this->db->query($sql);
-
-
 		if ($resql) {
 			$numrows = $this->db->num_rows($resql);
 			if ($numrows) {
@@ -185,8 +223,16 @@ class Prueba extends CommonObject
 
 				$this->id = $obj->rowid;
 				
-				$this->nombre = $obj->nombre;
+				$this->fk_product = $obj->fk_product;
+				$this->linf = $obj->linf;
+				$this->lsup = $obj->lsup;
+				$this->description = $obj->description;
+				$this->estado = $obj->estado;
+				$this->fk_regla = $obj->fk_regla;
+				$this->tms = $this->db->jdate($obj->tms);
+				$this->fk_desc_log = $obj->fk_desc_log;
 
+				
 			}
 			$this->db->free($resql);
 
@@ -202,110 +248,6 @@ class Prueba extends CommonObject
 			return - 1;
 		}
 	}
-
-
-
-//===========================================
-
-public function traer ($id)
-{
-
-//$this->db->begin();
-$resql = $this->db->query("SELECT * FROM llx_prueba WHERE rowid= $id");
-
-
-		if ($resql) {
-			$numrows = $this->db->num_rows($resql);
-
-			
-			if ($numrows) {
-				$obj = $this->db->fetch_object($resql);
-
-				$this->id = $obj->rowid;
-				
-				$this->nombre = $obj->nombre;
-
-				return $this;
-			}
-			$this->db->free($resql);
-
-			// if ($numrows) {
-			// 	return 1;
-			// } else {
-			// 	return 0;
-			// }
-		} else {
-			$this->errors[] = 'Error ' . $this->db->lasterror();
-			dol_syslog(__METHOD__ . ' ' . join(',', $this->errors), LOG_ERR);
-
-			return -1;
-		}
-
-}
-
-
-
-
-
-
-
-
-
-
-
-public function todo ()
-{
-
-//$this->db->begin();
- $resql= $this->db->query("SELECT * FROM llx_prueba"); // hago la consulta
-
-
-		if ($resql) {     //  verifico que se hizo
-			$numrows = $this->db->num_rows($resql);
-
-
-
-			while ($obj = $this->db->fetch_object($resql)) {
-
-	
-
-					$line = new PruebaLine();
-
-					$line->id = $obj->rowid;
-
-					$line->nombre = $obj->nombre;
-
-
-
-					$lines[] = $line;
-
-					
-			}
-return json_encode($lines);
-
-			$this->db->free($resql);
-
-			// if ($numrows) {
-			// 	return 1;
-			// } else {
-			// 	return 0;
-			// }
-		} else {
-			$this->errors[] = 'Error ' . $this->db->lasterror();
-			dol_syslog(__METHOD__ . ' ' . join(',', $this->errors), LOG_ERR);
-
-			return -1;
-		}
-
-}
-
-
-
-
-//=============================
-
-
-
 
 	/**
 	 * Load object in memory from the database
@@ -326,7 +268,14 @@ return json_encode($lines);
 		$sql = 'SELECT';
 		$sql .= ' t.rowid,';
 		
-		$sql .= " t.nombre";
+		$sql .= " t.fk_product,";
+		$sql .= " t.linf,";
+		$sql .= " t.lsup,";
+		$sql .= " t.description,";
+		$sql .= " t.estado,";
+		$sql .= " t.fk_regla,";
+		$sql .= " t.tms,";
+		$sql .= " t.fk_desc_log";
 
 		
 		$sql .= ' FROM ' . MAIN_DB_PREFIX . $this->table_element. ' as t';
@@ -355,11 +304,18 @@ return json_encode($lines);
 			$num = $this->db->num_rows($resql);
 
 			while ($obj = $this->db->fetch_object($resql)) {
-				$line = new PruebaLine();
+				$line = new DescLine();
 
 				$line->id = $obj->rowid;
 				
-				$line->nombre = $obj->nombre;
+				$line->fk_product = $obj->fk_product;
+				$line->linf = $obj->linf;
+				$line->lsup = $obj->lsup;
+				$line->description = $obj->description;
+				$line->estado = $obj->estado;
+				$line->fk_regla = $obj->fk_regla;
+				$line->tms = $this->db->jdate($obj->tms);
+				$line->fk_desc_log = $obj->fk_desc_log;
 
 				
 
@@ -392,8 +348,26 @@ return json_encode($lines);
 
 		// Clean parameters
 		
-		if (isset($this->nombre)) {
-			 $this->nombre = trim($this->nombre);
+		if (isset($this->fk_product)) {
+			 $this->fk_product = trim($this->fk_product);
+		}
+		if (isset($this->linf)) {
+			 $this->linf = trim($this->linf);
+		}
+		if (isset($this->lsup)) {
+			 $this->lsup = trim($this->lsup);
+		}
+		if (isset($this->description)) {
+			 $this->description = trim($this->description);
+		}
+		if (isset($this->estado)) {
+			 $this->estado = trim($this->estado);
+		}
+		if (isset($this->fk_regla)) {
+			 $this->fk_regla = trim($this->fk_regla);
+		}
+		if (isset($this->fk_desc_log)) {
+			 $this->fk_desc_log = trim($this->fk_desc_log);
 		}
 
 		
@@ -404,7 +378,14 @@ return json_encode($lines);
 		// Update request
 		$sql = 'UPDATE ' . MAIN_DB_PREFIX . $this->table_element . ' SET';
 		
-		$sql .= ' nombre = '.(isset($this->nombre)?"'".$this->db->escape($this->nombre)."'":"null");
+		$sql .= ' fk_product = '.(isset($this->fk_product)?$this->fk_product:"null").',';
+		$sql .= ' linf = '.(isset($this->linf)?$this->linf:"null").',';
+		$sql .= ' lsup = '.(isset($this->lsup)?$this->lsup:"null").',';
+		$sql .= ' description = '.(isset($this->description)?"'".$this->db->escape($this->description)."'":"null").',';
+		$sql .= ' estado = '.(isset($this->estado)?$this->estado:"null").',';
+		$sql .= ' fk_regla = '.(isset($this->fk_regla)?$this->fk_regla:"null").',';
+		$sql .= ' tms = '.(dol_strlen($this->tms) != 0 ? "'".$this->db->idate($this->tms)."'" : "'".$this->db->idate(dol_now())."'").',';
+		$sql .= ' fk_desc_log = '.(isset($this->fk_desc_log)?$this->fk_desc_log:"null");
 
         
 		$sql .= ' WHERE rowid=' . $this->id;
@@ -505,7 +486,7 @@ return json_encode($lines);
 
 		global $user;
 		$error = 0;
-		$object = new Prueba($this->db);
+		$object = new Desc($this->db);
 
 		$this->db->begin();
 
@@ -564,7 +545,7 @@ return json_encode($lines);
         $label.= '<div width="100%">';
         $label.= '<b>' . $langs->trans('Ref') . ':</b> ' . $this->ref;
 
-        $link = '<a href="'.DOL_URL_ROOT.'/Descuentos/card.php?id='.$this->id.'"';
+        $link = '<a href="'.DOL_URL_ROOT.'/descuentos/card.php?id='.$this->id.'"';
         $link.= ($notooltip?'':' title="'.dol_escape_htmltag($label, 1).'" class="classfortooltip'.($morecss?' '.$morecss:'').'"');
         $link.= '>';
 		$linkend='</a>';
@@ -644,7 +625,14 @@ return json_encode($lines);
 	{
 		$this->id = 0;
 		
-		$this->nombre = '';
+		$this->fk_product = '';
+		$this->linf = '';
+		$this->lsup = '';
+		$this->description = '';
+		$this->estado = '';
+		$this->fk_regla = '';
+		$this->tms = '';
+		$this->fk_desc_log = '';
 
 		
 	}
@@ -652,9 +640,9 @@ return json_encode($lines);
 }
 
 /**
- * Class PruebaLine
+ * Class DescLine
  */
-class PruebaLine
+class DescLine
 {
 	/**
 	 * @var int ID
@@ -664,7 +652,14 @@ class PruebaLine
 	 * @var mixed Sample line property 1
 	 */
 	
-	public $nombre;
+	public $fk_product;
+	public $linf;
+	public $lsup;
+	public $description;
+	public $estado;
+	public $fk_regla;
+	public $tms = '';
+	public $fk_desc_log;
 
 	/**
 	 * @var mixed Sample line property 2
