@@ -107,7 +107,6 @@ dol_fiche_head();
 
 $result=$object->traer(1);
 
-var_dump($result->nombre);
 
 print '
 
@@ -116,7 +115,7 @@ print '
 <div class="container">
 
 
-<h3>Modulo Descuentos <small> </small></h3>
+<h3>Modulo Descuentos <small>'. $result->nombre .' </small></h3>
 
 		<div id="content"> <!---inicio content  y tabs----->
 
@@ -365,18 +364,8 @@ print '
 // Page end
 dol_fiche_end();
 
-
-
-
-
-
-
-
-
-
 	}
 
-var_dump($result);
 
 // $product = new Product($db) ;
 // $result = $product->fetch(3) ; //Tester $result pour vérifier que l'accès à la base s'est bien passé
