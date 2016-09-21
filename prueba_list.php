@@ -56,10 +56,26 @@ if ($user->societe_id > 0)
 }
  $object=new Prueba($db);
     
-	if ($action == 'prueba')
+
+// Load object if id or ref is provided as parameter
+
+
+/***************************************************
+* VIEW
+*
+* Put here all code to build page
+****************************************************/
+
+llxHeader('','Modulo Descuentos','');
+
+
+if (empty($action) || $action!= 'prueba' || $action!= 'guardar') $action='listar';
+
+
+
+	if ($action == 'prueba')  //  acciones para valor get prueba
 	{
 
-       
 		
 		$result=$object->todo();
 
@@ -79,274 +95,298 @@ if ($user->societe_id > 0)
 	}
 
 
-// Load object if id or ref is provided as parameter
 
 
-
-
-
-/***************************************************
-* VIEW
-*
-* Put here all code to build page
-****************************************************/
-
-llxHeader('','Modulo Descuentos','');
-
-
-
-	if ($action == 'listar')
+	if ($action == 'listar')  // acciones para el valor get listar
 	{
+  
+		var_dump($id);
+            $result=$object->getProducts();
 
-       
-		
-		$result=$object->todo();
+        
 
+            // si hay un id es por que recargo la lista
 
-dol_fiche_head();
+            if(empty($id)  ){
 
-$result=$object->traer(1);
+                foreach ($result as $producto)
+                {
+                //acciones
+                $op_productos.= '<option value="'.$producto['id'].'">'.$producto['producto'].'</option>';
+                //<option value="$producto['id']">$producto['producto'].'</option>'
+                };
 
+            }else{
 
-print '
 
 
 
-<div class="container">
+                foreach ($result as $producto)
+                {
+                //MODIFICAR.... si hay un id 
 
+                    if ($producto['id'] == $id)
+                    {
 
-<h3>Modulo Descuentos <small>'. $result->nombre .' </small></h3>
+                        $op_productos.= '<option value="'.$producto['id'].'" selected>'.$producto['producto'].'</option>';
+                        $precio= $producto['price'];
 
-		<div id="content"> <!---inicio content  y tabs----->
+                    }else{
+                        
+                       $op_productos.= '<option value="'.$producto['id'].'">'.$producto['producto'].'</option>';
 
-			<ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
-				<li class="active"><a href="#newdesc" data-toggle="tab">Descuento Nuevo</a></li>
-                <li><a href="#regla" data-toggle="tab">Reglas</a></li>
-				<li><a href="#about" data-toggle="tab">Acerca De</a></li>
+                      
 
-			</ul>
-			<div id="my-tab-content" class="tab-content">
-				<div class="tab-pane active" id="newdesc">
+                    }
+//administracion@speedmza.com.ar
+                };
 
 
-                <br>
 
-                <div>
-                
-                
+            }
 
-                            <div class="panel panel-default">
-                                <!-- Default panel contents -->
-                                <div class="panel-heading">Datos</div>
 
-                                <div class="panel-body">
-                                    <!-- inicio del form -->
-<form class="form-inline">
 
 
-                                            <div class="row">
 
-                                             
 
-                                                <div class="col-xs-12 col-sm-12">
-                                                
-                                                    <div class="form-group col-xs-4">
+            dol_fiche_head();
 
+            //$result=$object->traer(1);
 
-                                                        <label for="exampleInputName2">Nombre Regla</label>
-                                                        <input type="text" class="form-control" id="nombre" name ="nombre" placeholder="Jane Doe">
 
 
-                                                    </div>
-                                                    <div class="form-group col-xs-4">
+       $html='<div class="container">
 
-                                                        <label for="exampleInputEmail2">Producto</label>
 
-                                                            <select class="form-control">
-                                                            <option>Default select</option>
-                                                            <option>Default select</option>
-                                                            <option>Default select</option> 
-                                                            </select>
+            <h3>Modulo Descuentos <small>'.   DOL_DOCUMENT_ROOT .' </small></h3>
 
-                                                    </div>
-                                                    <div class="form-group col-xs-4">
+                    <div id="content"> <!---inicio content  y tabs----->
 
+                        <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+                            <li class="active"><a href="#newdesc" data-toggle="tab">Descuento Nuevo</a></li>
+                            <li><a href="#regla" data-toggle="tab">Reglas</a></li>
+                            <li><a href="#about" data-toggle="tab">Acerca De</a></li>
 
-                                                        <h4> <small>Valor </small> $88,88</h4>
-
-                                                    </div>
-                                                
-
-                                                </div>
-
-
-                                            </div> <!-- fn de row -->
-
-
-
-
-
-
-
-
-<hr>
-
-
-
-
-                                            <div class="row">
-
-                                             
-
-                                                <div class="col-xs-12 col-sm-12">
-                                                
-                                                    <div class="form-group col-xs-4">
-
-
-                                                        <label for="exampleInputName2">Desde</label>
-                                                        <input type="text" class="form-control" id="nombre" name ="nombre" placeholder="Jane Doe">
-
-
-                                                    </div>
-                                                    <div class="form-group col-xs-3">
-
-                                                        <label for="exampleInputEmail2">Hasta</label>
-
-                                                        <input type="text" class="form-control input-md" id="nombre" name ="nombre" placeholder="Jane Doe">
-
-
-                                                    </div>
-                                                    <div class="form-group col-xs-3">
-
-                                                        <label for="exampleInputEmail2">descuento</label>
-                                                        <input type="text" class="form-control input-md" id="nombre" name ="nombre" placeholder="Jane Doe">
-
-                                                    </div>
-
-
-                                                     <div class="form-group col-xs-2">
-
-                                                            <button type="button" class="btn btn-default btn-xs">+</button>
-                                                            <button type="button" class="btn btn-default btn-xs">-</button>
-
-                                                    </div>
-
-
-                                                </div>
-
-
-                                            </div> <!-- fn de row -->
-<hr>
-
-                       
-
-  </form>  <!-- fn del form -->
-                               
-
-                                </div>  <!-- fn panel body -->
-
-                            </div> <!-- fn del panel princ -->
-
-                
-                </div>
-
-
-				</div>
-
-
-
-				<div class="tab-pane" id="regla"> <!--panel de reglas-->
-
-
-                 <br>
-
-                    <div class="panel panel-default">
-                    <!-- Default panel contents -->
-                    <div class="panel-heading">Lista escalonada de Precios</div>
-
-                    <!-- Table -->
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Producto</th>
-                                <th>Rango</th>
-                                <th>Valor con Descuento</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Rocky</td>
-                                <td> 1 a 11 latas</td>
-                                <td>$12.15</td>
-                            </tr>
-
-                        </tbody>
-                    </table>
-                    <div class="panel-footer">Panel footer</div>
-                    </div>
-
-
-
-                    <nav aria-label="Page navigation">
-                    <ul class="pagination">
-                        <li>
-                        <a href="#" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                        </li>
-                        <li><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>
-                        <li><a href="#">5</a></li>
-                        <li>
-                        <a href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                        </li>
-                    </ul>
-                    </nav>
-
-
-				</div>
-
-
-				<div class="tab-pane" id="about">  <!--panel de acerca de-->
+                        </ul>
+                        <div id="my-tab-content" class="tab-content">
+                            <div class="tab-pane active" id="newdesc">
 
 
                             <br>
-                            <div class="panel panel-default">
-                            <div class="panel-body">
+
+                            <div>
+                            
+                            
+                                        <div class="panel panel-default">
+                                            <!-- Default panel contents -->
+                                            <div class="panel-heading">Datos</div>
+
+                                            <div class="panel-body">
+                                                <!-- inicio del form -->
+            <form class="form-inline">
+
+
+                                                        <div class="row">
+
+                                                        
+
+                                                            <div class="col-xs-12 col-sm-12">
+                                                            
+                                                                <div class="form-group col-xs-4">
+
+
+                                                                    <label for="exampleInputName2">Nombre Regla</label>
+                                                                    <input type="text" class="form-control" id="nombre" name ="nombre" placeholder="Jane Doe">
+
+
+                                                                </div>
+                                                                <div class="form-group col-xs-4">
+
+                                                                    <label for="exampleInputEmail2">Producto</label>
+
+                                                                        <select class="form-control" name="productos" id="select_prod"> ';
+
+
+   $html.= $op_productos;
+
+                                                                
+
+                                                                        
+                                                             $html.='</select>
+
+                                                                </div>
+                                                                <div class="form-group col-xs-4">
+
+
+                                                                    <h4> <small>Valor </small> $ '. $precio.'</h4>
+
+                                                                </div>
+                                                            
+
+                                                            </div>
+
+
+                                                        </div> <!-- fn de row -->
+
+
+
+                                                       <hr>
+
+
+
+
+                                                        <div class="row">
+
+                                                        
+
+                                                            <div class="col-xs-12 col-sm-12">
+                                                            
+                                                                <div class="form-group col-xs-4">
+
+
+                                                                    <label for="exampleInputName2">Desde</label>
+                                                                    <input type="text" class="form-control" id="nombre" name ="nombre" placeholder="Jane Doe">
+
+
+                                                                </div>
+                                                                <div class="form-group col-xs-3">
+
+                                                                    <label for="exampleInputEmail2">Hasta</label>
+
+                                                                    <input type="text" class="form-control input-md" id="nombre" name ="nombre" placeholder="Jane Doe">
+
+
+                                                                </div>
+                                                                <div class="form-group col-xs-3">
+
+                                                                    <label for="exampleInputEmail2">descuento</label>
+                                                                    <input type="text" class="form-control input-md" id="nombre" name ="nombre" placeholder="Jane Doe">
+
+                                                                </div>
+
+
+                                                                <div class="form-group col-xs-2">
+
+                                                                        <button type="button" class="btn btn-default btn-xs">+</button>
+                                                                        <button type="button" class="btn btn-default btn-xs">-</button>
+
+                                                                </div>
+
+
+                                                            </div>
+
+
+                                                        </div> <!-- fn de row -->
+            <hr>
+
                                 
-                                                <address>
-                                                <strong>TMS Group</strong><br>
-                                                Avenida Principal 123<br>
-                                                Ciudad, Provincia 00000<br>
-                                                <abbr title="Phone">Tel:</abbr> 9XX 123 456
-                                                </address>
-                                                
-                                                <address>
-                                                <strong>Nombre Apellido</strong><br>
-                                                <a href="mailto:#">nombre.apellido@ejemplo.com</a>
-                                                </address>
 
+            </form>  <!-- fn del form -->
+                                        
 
-                            </div>
+                                            </div>  <!-- fn panel body -->
+
+                                        </div> <!-- fn del panel princ -->
+
+                            
                             </div>
 
 
-				</div>
+                            </div>
 
 
 
-				
-			</div> <!---fin tab- content ----->
-
-		</div><!---fin content ----->
+                            <div class="tab-pane" id="regla"> <!--panel de reglas-->
 
 
+                            <br>
+
+                                <div class="panel panel-default">
+                                <!-- Default panel contents -->
+                                <div class="panel-heading">Lista escalonada de Precios</div>
+
+                                <!-- Table -->
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Producto</th>
+                                            <th>Rango</th>
+                                            <th>Valor con Descuento</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>Rocky</td>
+                                            <td> 1 a 11 latas</td>
+                                            <td>$12.15</td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                                <div class="panel-footer">Panel footer</div>
+                                </div>
+
+
+
+                                <nav aria-label="Page navigation">
+                                <ul class="pagination">
+                                    <li>
+                                    <a href="#" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                    </li>
+                                    <li><a href="#">1</a></li>
+                                    <li><a href="#">2</a></li>
+                                    <li><a href="#">3</a></li>
+                                    <li><a href="#">4</a></li>
+                                    <li><a href="#">5</a></li>
+                                    <li>
+                                    <a href="#" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                    </li>
+                                </ul>
+                                </nav>
+
+
+                            </div>
+
+
+                            <div class="tab-pane" id="about">  <!--panel de acerca de-->
+
+
+                                        <br>
+                                        <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            
+                                                            <address>
+                                                            <strong>TMS Group</strong><br>
+                                                            Avenida Principal 123<br>
+                                                            Ciudad, Provincia 00000<br>
+                                                            <abbr title="Phone">Tel:</abbr> 9XX 123 456
+                                                            </address>
+                                                            
+                                                            <address>
+                                                            <strong>Nombre Apellido</strong><br>
+                                                            <a href="mailto:#">nombre.apellido@ejemplo.com</a>
+                                                            </address>
+
+
+                                        </div>
+                                        </div>
+
+
+                            </div>
+
+
+
+                            
+                        </div> <!---fin tab- content ----->
+
+                    </div><!---fin content ----->
 
 
 
@@ -355,28 +395,34 @@ print '
 
 
 
-</div> <!-- container -->
 
-</body>
-</html>
-';
 
-// Page end
-dol_fiche_end();
+            </div> <!-- container -->
+
+            </body>
+            </html>
+            ';
+
+            print $html;  // imprimo la cadena con el html completo
+
+            // Page end
+            dol_fiche_end();
 
 	}
 
 
+    if ($action == 'guardar')  // acciones para el valor get guardar
+    {
+
+
+        print "esto solo es cuando guardo";
+
+    }
+
 // $product = new Product($db) ;
 // $result = $product->fetch(3) ; //Tester $result pour vérifier que l'accès à la base s'est bien passé
 
-
 // echo $product->label;
-
-
-
-
-
 
 // $resql=$db->query("select * from llx_societe where rowid = 116");
 
@@ -404,9 +450,6 @@ dol_fiche_end();
 //  }
 
 
-
-
-//print "<h1> aqui esta el cuerpo </h1>";
 
 
 // End of page

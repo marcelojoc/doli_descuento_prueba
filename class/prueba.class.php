@@ -302,6 +302,41 @@ return json_encode($lines);
 
 
 
+
+
+
+
+
+public function getProducts()
+{
+
+//$this->db->begin();
+ $resql= $this->db->query("SELECT * FROM llx_product WHERE tosell =1"); // hago la consulta
+
+		if ($resql) {     //  verifico que se hizo
+			$numrows = $this->db->num_rows($resql);
+
+            $datos=array();
+			while ($obj = $this->db->fetch_object($resql)) {
+
+
+					$datos[]= array('producto'=>$obj->label, 'id'=>$obj->rowid, 'price'=>$obj->price); 
+                    	
+			}
+
+			return $datos;
+
+			$this->db->free($resql);
+
+		} else {
+			$this->errors[] = 'Error ' . $this->db->lasterror();
+			dol_syslog(__METHOD__ . ' ' . join(',', $this->errors), LOG_ERR);
+
+			return -1;
+		}
+
+}
+
 //=============================
 
 
