@@ -100,26 +100,20 @@ if (empty($action) || $action!= 'prueba' || $action!= 'guardar') $action='listar
 	if ($action == 'listar')  // acciones para el valor get listar
 	{
   
-		var_dump($id);
-            $result=$object->getProducts();
+		
+            $result=$object->getProducts(); // consulta de productos
 
-        
+            $reglas=$object->getReglas();  // consulta de reglas activas
 
             // si hay un id es por que recargo la lista
 
+            var_dump($reglas);
+
             if(empty($id)  ){
 
-                foreach ($result as $producto)
-                {
-                //acciones
-                $op_productos.= '<option value="'.$producto['id'].'">'.$producto['producto'].'</option>';
-                //<option value="$producto['id']">$producto['producto'].'</option>'
-                };
+                $id= $result[0]['id'];
 
-            }else{
-
-
-
+            }
 
                 foreach ($result as $producto)
                 {
@@ -135,22 +129,36 @@ if (empty($action) || $action!= 'prueba' || $action!= 'guardar') $action='listar
                         
                        $op_productos.= '<option value="'.$producto['id'].'">'.$producto['producto'].'</option>';
 
-                      
-
                     }
-//administracion@speedmza.com.ar
+
                 };
 
 
 
-            }
+          //loop para cargar las reglas de descuentos  tab reglas
+
+
+                foreach ($reglas as $regla)
+                {
+                    
+                        
+                       $op_reglas.="<tr> <td>". $regla['id_regla'] ."</td> 
+                                    
+                                    <td>". $regla['nom_regla'] ."</td>
+                                    <td>". $regla['producto']. "</td>
+                                    <td>". $regla['estado']."</td>
+                       
+                                    <td>acciones </td>
+
+                                   ";
+
+
+                };
+ '<option value="'.$producto['id'].'">'.$producto['producto'].'</option>';
 
 
 
-
-
-
-            dol_fiche_head();
+            dol_fiche_head(); // encabezado de la ficha de dolibarr
 
             //$result=$object->traer(1);
 
@@ -184,7 +192,7 @@ if (empty($action) || $action!= 'prueba' || $action!= 'guardar') $action='listar
 
                                             <div class="panel-body">
                                                 <!-- inicio del form -->
-            <form class="form-inline">
+                                     <form class="form-inline">
 
 
                                                         <div class="row">
@@ -208,7 +216,7 @@ if (empty($action) || $action!= 'prueba' || $action!= 'guardar') $action='listar
                                                                         <select class="form-control" name="productos" id="select_prod"> ';
 
 
-   $html.= $op_productos;
+                                                    $html.= $op_productos;
 
                                                                 
 
@@ -307,49 +315,29 @@ if (empty($action) || $action!= 'prueba' || $action!= 'guardar') $action='listar
                                 <div class="panel-heading">Lista escalonada de Precios</div>
 
                                 <!-- Table -->
-                                <table class="table">
+                                <table class="table table-striped table-bordered table-hover">
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>Producto</th>
-                                            <th>Rango</th>
-                                            <th>Valor con Descuento</th>
+                                            <th>Regla</th>
+                                            <th>Producto Asociado</th>
+                                            <th>Estado</th>
+                                            <th>Acciones</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Rocky</td>
-                                            <td> 1 a 11 latas</td>
-                                            <td>$12.15</td>
-                                        </tr>
+                                    <tbody>';
 
-                                    </tbody>
+
+                             $html.=$op_reglas;
+
+
+
+                             $html.=       '</tbody>
                                 </table>
-                                <div class="panel-footer">Panel footer</div>
+                                
                                 </div>
 
 
-
-                                <nav aria-label="Page navigation">
-                                <ul class="pagination">
-                                    <li>
-                                    <a href="#" aria-label="Previous">
-                                        <span aria-hidden="true">&laquo;</span>
-                                    </a>
-                                    </li>
-                                    <li><a href="#">1</a></li>
-                                    <li><a href="#">2</a></li>
-                                    <li><a href="#">3</a></li>
-                                    <li><a href="#">4</a></li>
-                                    <li><a href="#">5</a></li>
-                                    <li>
-                                    <a href="#" aria-label="Next">
-                                        <span aria-hidden="true">&raquo;</span>
-                                    </a>
-                                    </li>
-                                </ul>
-                                </nav>
 
 
                             </div>
@@ -406,7 +394,7 @@ if (empty($action) || $action!= 'prueba' || $action!= 'guardar') $action='listar
             print $html;  // imprimo la cadena con el html completo
 
             // Page end
-            dol_fiche_end();
+            dol_fiche_end();  // Cierre  de la ficha de dolibarr
 
 	}
 
@@ -449,9 +437,6 @@ if (empty($action) || $action!= 'prueba' || $action!= 'guardar') $action='listar
 // 	 print "nada";
 //  }
 
-
-
-
 // End of page
-//llxFooter();
+
 $db->close();

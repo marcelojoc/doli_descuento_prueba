@@ -1,30 +1,5 @@
 <?php
-/* Copyright (C) 2007-2012  Laurent Destailleur <eldy@users.sourceforge.net>
- * Copyright (C) 2014       Juanjo Menent       <jmenent@2byte.es>
- * Copyright (C) 2015       Florian Henry       <florian.henry@open-concept.pro>
- * Copyright (C) 2015       Raphaël Doursenaud  <rdoursenaud@gpcsolutions.fr>
- * Copyright (C) ---Put here your own copyright and developer email---
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- */
 
-/**
- * \file    Descuentos/prueba.class.php
- * \ingroup Descuentos
- * \brief   This file is an example for a CRUD class file (Create/Read/Update/Delete)
- *          Put some comments here
- */
 
 // Put here all includes required by your class file
 require_once DOL_DOCUMENT_ROOT . '/core/class/commonobject.class.php';
@@ -253,11 +228,29 @@ $resql = $this->db->query("SELECT * FROM llx_prueba WHERE rowid= $id");
 
 
 
-public function todo ()
+public function getReglas ()
 {
 
 //$this->db->begin();
- $resql= $this->db->query("SELECT * FROM llx_prueba"); // hago la consulta
+
+
+ $resql= $this->db->query("
+ 
+ SELECT llx_desc_reglas.rowid, 
+        llx_desc_reglas.nombre_regla, 
+	llx_product.label, 
+	llx_desc_reglas.estado,
+	llx_desc_reglas.eliminado 
+ FROM   llx_desc_reglas, 
+        llx_desc
+
+ INNER JOIN llx_product
+        ON llx_desc.fk_product = llx_product.rowid 
+ WHERE llx_desc_reglas.eliminado= 1 
+ GROUP BY fk_regla
+ 
+ 
+ "); // hago la consulta
 
 
 		if ($resql) {     //  verifico que se hizo
@@ -265,31 +258,18 @@ public function todo ()
 
 
 
+            $datos=array();
 			while ($obj = $this->db->fetch_object($resql)) {
 
-	
 
-					$line = new PruebaLine();
-
-					$line->id = $obj->rowid;
-
-					$line->nombre = $obj->nombre;
-
-
-
-					$lines[] = $line;
-
-					
+					$datos[]= array('id_regla'=>$obj->rowid, 'nom_regla'=>$obj->nombre_regla, 'producto'=> $obj->label , 'estado'=> $obj->estado); 
+                    	
 			}
-return json_encode($lines);
+
+			return $datos;
 
 			$this->db->free($resql);
 
-			// if ($numrows) {
-			// 	return 1;
-			// } else {
-			// 	return 0;
-			// }
 		} else {
 			$this->errors[] = 'Error ' . $this->db->lasterror();
 			dol_syslog(__METHOD__ . ' ' . join(',', $this->errors), LOG_ERR);
@@ -305,7 +285,9 @@ return json_encode($lines);
 
 
 
-
+	/*
+	Este metodo trae todos los productos activos a la venta
+	 */
 
 public function getProducts()
 {
@@ -320,7 +302,7 @@ public function getProducts()
 			while ($obj = $this->db->fetch_object($resql)) {
 
 
-					$datos[]= array('producto'=>$obj->label, 'id'=>$obj->rowid, 'price'=>$obj->price); 
+					$datos[]= array('producto'=>$obj->label, 'id'=>$obj->rowid, 'price'=> number_format($obj->price, 2, ',', '')); 
                     	
 			}
 
@@ -685,6 +667,19 @@ public function getProducts()
 	}
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /**
  * Class PruebaLine
