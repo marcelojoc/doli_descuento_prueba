@@ -46,7 +46,7 @@ class modDescuentos extends DolibarrModules
 
 		// Id for module (must be unique).
 		// Use here a free id (See in Home -> System information -> Dolibarr for list of used modules id).
-		$this->numero = 500010;		// TODO Go on page http://wiki.dolibarr.org/index.php/List_of_modules_id to reserve id number for your module
+		$this->numero = 500500;		// TODO Go on page http://wiki.dolibarr.org/index.php/List_of_modules_id to reserve id number for your module
 		// Key text used to identify module (for permissions, menus, etc...)
 		$this->rights_class = 'Descuentos';
 
@@ -96,7 +96,8 @@ class modDescuentos extends DolibarrModules
 												   '/descuentos/css/descuentos.css'
 																						),
 		
-		                            'js' => array('/descuentos/js/bootstrap.min.js',
+		                            'js' => array('/descuentos/js/angular.min.js',
+												  '/descuentos/js/bootstrap.min.js',
 												  '/descuentos/js/main_descuentos.js'
 
 												 )

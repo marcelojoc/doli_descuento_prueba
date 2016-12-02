@@ -31,7 +31,7 @@ $myparam	= GETPOST('myparam','alpha');
 
 
 $search_nombre=GETPOST('search_nombre','alpha');
-
+echo($action);
 
 $optioncss = GETPOST('optioncss','alpha');
 
@@ -66,7 +66,8 @@ if ($user->societe_id > 0)
 * Put here all code to build page
 ****************************************************/
 
-llxHeader('','Modulo Descuentos','');
+llxHeader('','Modulo Descuentos','','','','','','',0,0);
+
 
 
 if (empty($action) || $action!= 'prueba' || $action!= 'guardar') $action='listar';
@@ -107,7 +108,7 @@ if (empty($action) || $action!= 'prueba' || $action!= 'guardar') $action='listar
 
             // si hay un id es por que recargo la lista
 
-            var_dump($reglas);
+           // var_dump($reglas);
 
             if(empty($id)  ){
 
@@ -404,6 +405,9 @@ if (empty($action) || $action!= 'prueba' || $action!= 'guardar') $action='listar
 
 
         print "esto solo es cuando guardo";
+
+
+
 
     }
 
