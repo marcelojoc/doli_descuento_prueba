@@ -215,7 +215,7 @@ class modDescuentos extends DolibarrModules
 		// Add here entries to declare new menus
 		//
 		// Example to declare a new Top Menu entry and its Left menu entry:
-		 $this->menu[$r]=array(	'fk_menu'=>'',			                // '' if this is a top menu. For left menu, use 'fk_mainmenu=xxx' or 'fk_mainmenu=xxx,fk_leftmenu=yyy' where xxx is mainmenucode and yyy is a leftmenucode
+		 $this->menu[$r]=array(	'fk_menu'=>'fk_mainmenu=10777',			                // '' if this is a top menu. For left menu, use 'fk_mainmenu=xxx' or 'fk_mainmenu=xxx,fk_leftmenu=yyy' where xxx is mainmenucode and yyy is a leftmenucode
 								'type'=>'top',			                // This is a Top menu entry
 									'titre'=>'descuentos',
 								'mainmenu'=>'descuentos',
@@ -229,13 +229,13 @@ class modDescuentos extends DolibarrModules
 									'user'=>2);				                // 0=Menu for internal users, 1=external users, 2=both
 		 $r++;
 		//
-		// Example to declare a Left Menu entry into an existing Top menu entry:
+		//Example to declare a Left Menu entry into an existing Top menu entry:
 		 $this->menu[$r]=array(	'fk_menu'=>'fk_mainmenu=xxx',		    // '' if this is a top menu. For left menu, use 'fk_mainmenu=xxx' or 'fk_mainmenu=xxx,fk_leftmenu=yyy' where xxx is mainmenucode and yyy is a leftmenucode
 								'type'=>'left',			                // This is a Left menu entry
-									'titre'=>'descuentos left menu',
+									'titre'=>'descuentos left menu1',
 									'mainmenu'=>'xxx',
 									'leftmenu'=>'descuentos',
-									'url'=>'/descuentos/pagelevel2.php',
+									'url'=>'/descuentos/prueba_list2.php',
 									'langs'=>'mylangfile@descuentos',	        // Lang file to use (without .lang) by module. File must be in langs/code_CODE/ directory.
 									'position'=>100,
 									'enabled'=>'$conf->descuentos->enabled',  // Define condition to show or hide menu entry. Use '$conf->descuentos->enabled' if entry must be visible if module is enabled. Use '$leftmenu==\'system\'' to show if leftmenu system is selected.
@@ -243,6 +243,7 @@ class modDescuentos extends DolibarrModules
 									'target'=>'',
 									'user'=>2);				                // 0=Menu for internal users, 1=external users, 2=both
 		$r++;
+
 
 
 		// Exports

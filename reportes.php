@@ -50,7 +50,7 @@ if ($user->societe_id > 0)
 $morecss = array("/descuentos/css/funciones.css", "/descuentos/css/pruebitas.css");
 
 
- llxHeader('','tu vieja','','','','',$morejs,$morecss,0,0,false); 
+ llxHeader('','Reporte Rutas','','','','',$morejs,$morecss,0,0); 
 
 //llxHeader('','Modulo Descuentos','');
 
@@ -58,16 +58,148 @@ $morecss = array("/descuentos/css/funciones.css", "/descuentos/css/pruebitas.css
 ?>
 
 
+<style>
 
-<body>
+.row{
+    margin-top:30px;
+    
+}
+.clickable{
+    cursor: pointer;   
+}
+
+.panel-heading span {
+	margin-top: -20px;
+	font-size: 15px;
+}
+
+</style>
+
+  <body>
+
+    <div class="container-fluid">
+	<div class="row">
+		<div class="col-md-4">
+
+
+<form class="form-horizontal">
+
+<div class="form-group">
+  <label class="col-md-4 control-label" for="selectbasic">Seleccionar Ruta</label>
+  <div class="col-md-4 ">
+    <select id="selectbasic" name="selectbasic" class="form-control btn-block">
+      <option value="1">Ruta 1 - Lunes</option>
+      <option value="2">Option two</option>
+      <option value="1">Ruta 1 - Lunes</option>
+      <option value="2">Option two</option>
+      <option value="1">Ruta 1 - Lunes</option>
+      <option value="2">Option two</option>
+      <option value="1">Ruta 1 - Lunes</option>
+      <option value="2">Option two</option>
+      <option value="1">Ruta 1 - Lunes</option>
+      <option value="2">Option two</option>
+    </select>
+  </div>
+</div>
+
+
+</form>
+
+
+            <div class="list-group">
+            <a href="#" class="list-group-item disabled">
+                Vendedores
+            </a>
+            <a href="#" class="list-group-item">Dapibus ac facilisis in</a>
+            <a href="#" class="list-group-item">Morbi leo risus</a>
+            <a href="#" class="list-group-item">Porta ac consectetur ac</a>
+            <a href="#" class="list-group-item">Vestibulum at eros</a>
+            </div>
+
+
+
+		</div>
+		<div class="col-md-8">
 
 
 
 
-</body>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+					<h3 class="panel-title">Reporte para NOMBRE VENDEDOR</h3>
+					<span class="pull-right clickable "><i class="glyphicon glyphicon-print"></i> Imprimir </span>
+				</div>
+                <div class="panel-body">
+                    
+                    
+
+<table class="table table-bordered table-hover">
+				<thead>
+					<tr>
+						<th>
+							Cod Cliente
+						</th>
+						<th>
+							Nombre
+						</th>
+						<th>
+							Direccion
+						</th>
+						<th>
+							Ruta
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>
+							1
+						</td>
+						<td>
+							TB - Monthly
+						</td>
+						<td>
+							01/04/2012
+						</td>
+						<td>
+							Default
+						</td>
+					</tr>
+					<tr class="active">
+						<td>
+							1
+						</td>
+						<td>
+							TB - Monthly
+						</td>
+						<td>
+							01/04/2012
+						</td>
+						<td>
+							Approved
+						</td>
+					</tr>
+
+				</tbody>
+			</table>
+
+
+                </div>
+            </div>
+
+		</div>
+	</div>
+</div>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/scripts.js"></script>
+  </body>
 </html>
 
 
 <?php
     //dol_fiche_end();
 ?>
+
+
