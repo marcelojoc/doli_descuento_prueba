@@ -47,7 +47,7 @@ if ($user->societe_id > 0)
 
 
  $morejs = array("/descuentos/js/angular.min.js","/descuentos/js/funciones.js");
-$morecss = array("/descuentos/css/funciones.css", "/descuentos/css/pruebitas.css");
+$morecss = array("/descuentos/css/descuentos.css");
 
 
  llxHeader('','Reporte Rutas','','','','',$morejs,$morecss,0,0); 
@@ -60,18 +60,6 @@ $morecss = array("/descuentos/css/funciones.css", "/descuentos/css/pruebitas.css
 
 <style>
 
-.row{
-    margin-top:30px;
-    
-}
-.clickable{
-    cursor: pointer;   
-}
-
-.panel-heading span {
-	margin-top: -20px;
-	font-size: 15px;
-}
 
 </style>
 
