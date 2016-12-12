@@ -6,7 +6,7 @@ class Vendedor
   var $idVendedor;
   
 
-	public function __construct(DoliDB $db, $id = null)
+	public function __construct(DoliDB $db, $id = null, $admin=null)
 	{
 		$this->db = $db;
 		$this->idVendedor = $id;
@@ -60,10 +60,9 @@ class Vendedor
                             {
                                     // You can use here results
                                     $respuesta[]= array(
-                                        'cod_client'=> $obj->code_client,
-                                        'nom'=>$obj->nom,
-                                        'adress'=> $obj->address,
-                                        'ruta'=> $obj->ruta1,
+                                        'rowid'=> $obj->rowid,
+                                        'nom'=>$obj->lastname,
+                                        'lastname'=> $obj->firstname
                                     );
                             }
                             $i++;

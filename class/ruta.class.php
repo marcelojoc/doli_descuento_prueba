@@ -44,7 +44,7 @@ class Ruta
 // metodos de rutas
 
 
-    function getRutas ($ruta){
+    public function getRutas ($ruta){
 
         $nombreRutaBd = 'ruta1';
 

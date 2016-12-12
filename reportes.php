@@ -15,7 +15,8 @@ if (! $res) die("Include of main fails");
 require_once DOL_DOCUMENT_ROOT.'/product/class/product.class.php';
 require_once DOL_DOCUMENT_ROOT.'/core/lib/date.lib.php';
 include_once(DOL_DOCUMENT_ROOT.'/core/class/html.formcompany.class.php');
-dol_include_once('/Descuentos/class/prueba.class.php');
+dol_include_once('/Descuentos/class/vendedor.class.php');
+dol_include_once('/Descuentos/class/ruta.class.php');
 
 // Load traductions files requiredby by page
 $langs->load("Descuentos");
@@ -25,13 +26,12 @@ $langs->load("other");
 $id			= GETPOST('id','int');
 $action		= GETPOST('action','alpha');
 $vendedor = GETPOST('vendedor');
-$myparam	= GETPOST('myparam','alpha');
+$ruta	= GETPOST('ruta','alpha');
 
 
 
 
 $search_nombre=GETPOST('search_nombre','alpha');
-echo($action);
 
 $optioncss = GETPOST('optioncss','alpha');
 
@@ -46,8 +46,8 @@ if ($user->societe_id > 0)
 
 
 
- $morejs = array("/descuentos/js/angular.min.js","/descuentos/js/funciones.js");
-$morecss = array("/descuentos/css/descuentos.css");
+$morejs = array("/descuentos/js/funciones.js");
+$morecss = array("descuentos/css/descuentos.css");
 
 
  llxHeader('','Reporte Rutas','','','','',$morejs,$morecss,0,0); 
@@ -55,6 +55,26 @@ $morecss = array("/descuentos/css/descuentos.css");
 //llxHeader('','Modulo Descuentos','');
 
 //dol_fiche_head();
+
+$vendedores = new Vendedor($db);
+
+$listado = $vendedores->getVendedores();
+$lista_rutas= "";
+
+	if(isset($id) and $id!= ""){
+
+	//echo  ("dentro");
+
+		$rutas = new Ruta($db);
+
+		$rutas->setIdVendedor($id);
+
+		$lista_rutas= $rutas->getRutas($ruta);
+
+	}
+
+	//var_dump($lista_rutas);
+
 ?>
 
 
@@ -98,10 +118,26 @@ $morecss = array("/descuentos/css/descuentos.css");
             <a href="#" class="list-group-item disabled">
                 Vendedores
             </a>
-            <a href="#" class="list-group-item">Dapibus ac facilisis in</a>
-            <a href="#" class="list-group-item">Morbi leo risus</a>
-            <a href="#" class="list-group-item">Porta ac consectetur ac</a>
-            <a href="#" class="list-group-item">Vestibulum at eros</a>
+
+
+
+<?php
+
+
+		foreach( $listado as $vendedor){
+
+			echo('<a href="reportes.php?id='. $vendedor['rowid']  .'" class="list-group-item">'. $vendedor['nom'] . ' '. $vendedor['lastname'] . '</a>');
+
+		}
+
+?>
+
+
+   
+
+
+
+
             </div>
 
 
@@ -139,34 +175,35 @@ $morecss = array("/descuentos/css/descuentos.css");
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td>
-							1
-						</td>
-						<td>
-							TB - Monthly
-						</td>
-						<td>
-							01/04/2012
-						</td>
-						<td>
-							Default
-						</td>
-					</tr>
-					<tr class="active">
-						<td>
-							1
-						</td>
-						<td>
-							TB - Monthly
-						</td>
-						<td>
-							01/04/2012
-						</td>
-						<td>
-							Approved
-						</td>
-					</tr>
+					<tr><td>1</td><td>TB - Monthly</td><td>01/04/2012</td><td>Default</td></tr>
+					
+<?php
+
+
+	if(isset($lista_rutas)){
+
+
+		foreach( $lista_rutas as $cliente){
+
+			//echo('<a href="reportes.php?id='. $vendedor['rowid']  .'" class="list-group-item">'. $vendedor['nom'] . ' '. $vendedor['lastname'] . '</a>');
+
+
+			echo(
+
+				'<tr><td>1</td><td>TB - Monthly</td><td>01/04/2012</td><td>Default</td></tr>'
+			);
+
+
+		}
+
+
+	}
+
+
+
+?>
+
+
 
 				</tbody>
 			</table>

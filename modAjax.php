@@ -24,7 +24,9 @@ $ruta->setIdVendedor(3);
 $respuesta=null;
 
 
-$prueba = $ruta->getRutas(3);
+//$prueba = $ruta->getRutas(3);
+
+$prueba= $vendor->getVendedores();
 
 
 //  switch ($consulta)
