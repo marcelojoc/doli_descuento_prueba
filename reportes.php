@@ -23,17 +23,10 @@ $langs->load("Descuentos");
 $langs->load("other");
 
 // Get parameters
-$id			= GETPOST('id','int');
-$action		= GETPOST('action','alpha');
-$vendedor = GETPOST('vendedor');
-$ruta	= GETPOST('ruta','alpha');
-
-
-
-
-$search_nombre=GETPOST('search_nombre','alpha');
-
-$optioncss = GETPOST('optioncss','alpha');
+$id			= GETPOST('id','int');  // id del vendedor que estas seleccionando
+$action		= GETPOST('action','alpha');  // no se usa
+$vendedor = GETPOST('vendedor');          // no se usa
+$ruta	= GETPOST('ruta','alpha');			// ruta que queremos ver
 
 
 // Protection if external user
@@ -46,20 +39,22 @@ if ($user->societe_id > 0)
 
 
 
-$morejs = array("/descuentos/js/funciones.js");
+//$morejs = array("/descuentos/js/funciones.js");
 $morecss = array("descuentos/css/descuentos.css");
 
 
- llxHeader('','Reporte Rutas','','','','',$morejs,$morecss,0,0); 
+ llxHeader('','Reporte Rutas','','','','','',$morecss,0,0); 
 
 //llxHeader('','Modulo Descuentos','');
 
 //dol_fiche_head();
 
-$vendedores = new Vendedor($db);
 
-$listado = $vendedores->getVendedores();
-$lista_rutas= "";
+$vendedores = new Vendedor($db);  //Nueva instancia de vendedor
+
+$listado = $vendedores->getVendedores();  //trae todos los vendedores
+
+$lista_rutas= "";						// variable para alnmacenar los clientes segun los parametros 
 
 	if(isset($id) and $id!= ""){
 
@@ -96,16 +91,19 @@ $lista_rutas= "";
   <label class="col-md-4 control-label" for="selectbasic">Seleccionar Ruta</label>
   <div class="col-md-4 ">
     <select id="selectbasic" name="selectbasic" class="form-control btn-block">
+
       <option value="1">Ruta 1 - Lunes</option>
-      <option value="2">Option two</option>
-      <option value="1">Ruta 1 - Lunes</option>
-      <option value="2">Option two</option>
-      <option value="1">Ruta 1 - Lunes</option>
-      <option value="2">Option two</option>
-      <option value="1">Ruta 1 - Lunes</option>
-      <option value="2">Option two</option>
-      <option value="1">Ruta 1 - Lunes</option>
-      <option value="2">Option two</option>
+
+      <option value="2">Ruta 2 - Martes</option>
+
+      <option value="3">Ruta 3 - Miercoles</option>
+
+      <option value="4">Ruta 4 - Jueves</option>
+
+      <option value="5">Ruta 5 - Viernes</option>
+
+	  <option value="6">Ruta 6 - Sabado</option>
+
     </select>
   </div>
 </div>
@@ -114,7 +112,7 @@ $lista_rutas= "";
 </form>
 
 
-            <div class="list-group">
+            <div class="list-group" id= "listVendedor">
             <a href="#" class="list-group-item disabled">
                 Vendedores
             </a>
@@ -175,7 +173,6 @@ $lista_rutas= "";
 					</tr>
 				</thead>
 				<tbody>
-					<tr><td>1</td><td>TB - Monthly</td><td>01/04/2012</td><td>Default</td></tr>
 					
 <?php
 
@@ -190,7 +187,7 @@ $lista_rutas= "";
 
 			echo(
 
-				'<tr><td>1</td><td>TB - Monthly</td><td>01/04/2012</td><td>Default</td></tr>'
+				'<tr><td>'.$cliente['cod_client'].'</td><td>'.$cliente['nom'].'</td><td> ' . $cliente['adress']. '</td><td> '. $cliente['ruta'].' </td></tr>'
 			);
 
 
@@ -216,9 +213,9 @@ $lista_rutas= "";
 	</div>
 </div>
 
-    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery-3.1.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
-    <script src="js/scripts.js"></script>
+    <script src="js/scriptReporte.js"></script>
   </body>
 </html>
 

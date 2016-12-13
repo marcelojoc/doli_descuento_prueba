@@ -92,11 +92,10 @@ class modDescuentos extends DolibarrModules
 		//							'workflow' => array('WORKFLOW_MODULE1_YOURACTIONTYPE_MODULE2'=>array('enabled'=>'! empty($conf->module1->enabled) && ! empty($conf->module2->enabled)', 'picto'=>'yourpicto@descuentos')) // Set here all workflow context managed by module
 		//                        );
 		$this->module_parts = array('css' => array('/descuentos/css/bootstrap.min.css',
-												   '/descuentos/css/bootstrap-theme.min.css',
-												   '/descuentos/css/descuentos.css'
-																						),
+												   '/descuentos/css/bootstrap-theme.min.css'
+												  ),
 		
-		                            'js' => array('/descuentos/js/angular.min.js',
+		                            'js' => array(
 												  '/descuentos/js/bootstrap.min.js',
 												  '/descuentos/js/main_descuentos.js'
 
