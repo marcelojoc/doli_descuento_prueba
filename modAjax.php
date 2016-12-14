@@ -18,13 +18,13 @@ $vendor = new Vendedor($db);
 
 $ruta   = new Ruta ($db);
 
-$ruta->setIdRuta(3);
-$ruta->setIdVendedor(3);
+$ruta->setIdRuta(1);
+$ruta->setIdVendedor(8);
 
 $respuesta=null;
 
 
-//$prueba = $ruta->getRutas(3);
+//$prueba = $ruta->getRutas();
 
 $prueba= $vendor->getVendedores();
 

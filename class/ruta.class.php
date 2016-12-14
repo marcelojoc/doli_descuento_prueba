@@ -22,7 +22,7 @@ class Ruta
 
 		$this->idRuta = $idRuta;
 	}
-	public function getRuta(){
+	public function getidRuta(){
 
 		return $this->idRuta;
 	}
@@ -44,7 +44,7 @@ class Ruta
 // metodos de rutas
 
 
-    public function getRutas ($ruta){
+    public function getRutas (){
 
         $nombreRutaBd = 'ruta1';
 
@@ -59,7 +59,7 @@ class Ruta
                 llx_societe_extrafields AS extra 
             WHERE  
                 soc.rowid = extra.fk_object  
-                AND extra.ruta1 = ".$ruta."
+                AND extra.ruta1 = ".$this->idRuta."
                 AND extra.vendedor=". $this->idVendedor ." 
             ORDER BY soc.nom ASC
         ";

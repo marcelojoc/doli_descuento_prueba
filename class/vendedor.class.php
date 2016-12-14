@@ -37,9 +37,12 @@ class Vendedor
     function getVendedores (){
 
        
+// SELECT `rowid`, `lastname`, firstname FROM `llx_user` WHERE llx_user.`admin` != 1
+
 
         $sql= "
-        SELECT `rowid`, `lastname`, firstname FROM `llx_user` WHERE llx_user.`admin` != 1
+        SELECT `lastname`, firstname, llx_user_extrafields.`codvendedor` FROM `llx_user`, `llx_user_extrafields` WHERE llx_user.`admin` != 1    
+AND `llx_user_extrafields`.`fk_object`= `llx_user`.`rowid` 
         ";
 
 
@@ -60,7 +63,7 @@ class Vendedor
                             {
                                     // You can use here results
                                     $respuesta[]= array(
-                                        'rowid'=> $obj->rowid,
+                                        'idVendedor'=> $obj->codvendedor,
                                         'nom'=>$obj->lastname,
                                         'lastname'=> $obj->firstname
                                     );

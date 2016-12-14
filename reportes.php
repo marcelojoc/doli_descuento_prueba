@@ -24,8 +24,6 @@ $langs->load("other");
 
 // Get parameters
 $id			= GETPOST('id','int');  // id del vendedor que estas seleccionando
-$action		= GETPOST('action','alpha');  // no se usa
-$vendedor = GETPOST('vendedor');          // no se usa
 $ruta	= GETPOST('ruta','alpha');			// ruta que queremos ver
 
 
@@ -54,21 +52,38 @@ $vendedores = new Vendedor($db);  //Nueva instancia de vendedor
 
 $listado = $vendedores->getVendedores();  //trae todos los vendedores
 
-$lista_rutas= "";						// variable para alnmacenar los clientes segun los parametros 
+$lista_clientes= "";						// variable para alnmacenar los clientes segun los parametros 
 
-	if(isset($id) and $id!= ""){
 
-	//echo  ("dentro");
+if($ruta== ""){
 
-		$rutas = new Ruta($db);
+	$ruta= date("w");
 
-		$rutas->setIdVendedor($id);
+}else{
 
-		$lista_rutas= $rutas->getRutas($ruta);
+	if(!is_numeric($ruta)){
+
+		$ruta=1;
 
 	}
+}
 
-	//var_dump($lista_rutas);
+
+	$rutas = new Ruta($db);
+	if(isset($id) and $id!= ""){
+
+		$rutas->setIdVendedor($id);
+		$rutas->setIdRuta($ruta);
+
+
+	}else{
+
+		$rutas->setIdVendedor(0);
+		$rutas->setIdRuta(0);
+	}
+
+	$lista_clientes= $rutas->getRutas();
+
 
 ?>
 
@@ -85,26 +100,56 @@ $lista_rutas= "";						// variable para alnmacenar los clientes segun los parame
 		<div class="col-md-4">
 
 
-<form class="form-horizontal">
+
+<form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="POST" id= "formRuta" class="form-horizontal"  role="form" autocomplete="off">
 
 <div class="form-group">
   <label class="col-md-4 control-label" for="selectbasic">Seleccionar Ruta</label>
   <div class="col-md-4 ">
+
+	  <input type="hidden" value="" id="hidenRuta">
     <select id="selectbasic" name="selectbasic" class="form-control btn-block">
 
-      <option value="1">Ruta 1 - Lunes</option>
 
-      <option value="2">Ruta 2 - Martes</option>
 
-      <option value="3">Ruta 3 - Miercoles</option>
 
-      <option value="4">Ruta 4 - Jueves</option>
 
-      <option value="5">Ruta 5 - Viernes</option>
+	  <?php
 
-	  <option value="6">Ruta 6 - Sabado</option>
+	if($ruta <= 0){    // si es domingo te muestra la ruta de lunes
 
-    </select>
+		$ruta= 1;
+	}
+
+
+	$dias = array('','Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado');
+
+	$limit = count($dias);
+	$limit--;         // le saco el domingo
+	$selected = "";  // para que quede la opcion seleccionada de a cuerdo al dia
+		for ($i = 1; $i <= $limit ; $i++) {
+			
+			if($i == $ruta){
+
+					$selected= "selected";
+			}else{
+
+					$selected= "";
+			}
+			
+			echo '<option value="'. $i .'" '. $selected.'> Ruta '. $i .' '. $dias[$i] .'</option>';
+
+		}
+
+
+
+
+?>
+
+ </select>   
+
+
+
   </div>
 </div>
 
@@ -124,7 +169,7 @@ $lista_rutas= "";						// variable para alnmacenar los clientes segun los parame
 
 		foreach( $listado as $vendedor){
 
-			echo('<a href="reportes.php?id='. $vendedor['rowid']  .'" class="list-group-item">'. $vendedor['nom'] . ' '. $vendedor['lastname'] . '</a>');
+			echo('<a href="reportes.php?id='. $vendedor['idVendedor']  .'&ruta='. $ruta .'" class="list-group-item">'. $vendedor['nom'] . ' '. $vendedor['lastname'] . '</a>');
 
 		}
 
@@ -177,10 +222,14 @@ $lista_rutas= "";						// variable para alnmacenar los clientes segun los parame
 <?php
 
 
-	if(isset($lista_rutas)){
+	if(isset($lista_clientes)){
 
 
-		foreach( $lista_rutas as $cliente){
+		$loco= $rutas->getidRuta();
+
+		var_dump($loco);
+
+		foreach( $lista_clientes as $cliente){
 
 			//echo('<a href="reportes.php?id='. $vendedor['rowid']  .'" class="list-group-item">'. $vendedor['nom'] . ' '. $vendedor['lastname'] . '</a>');
 
@@ -213,14 +262,17 @@ $lista_rutas= "";						// variable para alnmacenar los clientes segun los parame
 	</div>
 </div>
 
-    <script src="js/jquery-3.1.1.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/scriptReporte.js"></script>
+   
+    <script src="/dolibar_local/htdocs/descuentos/js/scriptReporte.js"></script>
   </body>
 </html>
 
 
 <?php
+
+
+
+//echo('hoy es '.$valor);
     //dol_fiche_end();
 ?>
 
