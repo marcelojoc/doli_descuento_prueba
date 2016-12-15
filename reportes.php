@@ -35,8 +35,6 @@ if ($user->societe_id > 0)
 	accessforbidden();
 }
 
-
-
 //$morejs = array("/descuentos/js/funciones.js");
 $morecss = array("descuentos/css/descuentos.css");
 
@@ -107,12 +105,7 @@ if($ruta== ""){
   <label class="col-md-4 control-label" for="selectbasic">Seleccionar Ruta</label>
   <div class="col-md-4 ">
 
-	  <input type="hidden" value="" id="hidenRuta">
-    <select id="selectbasic" name="selectbasic" class="form-control btn-block">
-
-
-
-
+    <select id="ruta" name="ruta" class="form-control btn-block" onchange="cambioSelect()" >
 
 	  <?php
 
@@ -140,9 +133,6 @@ if($ruta== ""){
 			echo '<option value="'. $i .'" '. $selected.'> Ruta '. $i .' '. $dias[$i] .'</option>';
 
 		}
-
-
-
 
 ?>
 
@@ -193,14 +183,21 @@ if($ruta== ""){
 
             <div class="panel panel-default">
                 <div class="panel-heading">
-					<h3 class="panel-title">Reporte para NOMBRE VENDEDOR</h3>
-					<span class="pull-right clickable "><i class="glyphicon glyphicon-print"></i> Imprimir </span>
+					<h3 class="panel-title">Reporte de Rutas</h3>
+
+					<form action="printTable.php" method="POST" id= "printRuta" class="form-horizontal"  role="form">
+
+						<a href="javascript:printRuta()" >	<span class="pull-right clickable "><i class="glyphicon glyphicon-print"></i> Imprimir </span></a>
+
+						<input type=hidden name="var_php" value= "<?php echo (serialize($lista_clientes)); ?>" >
+
+					</form>
 				</div>
                 <div class="panel-body">
                     
                     
 
-<table class="table table-bordered table-hover">
+<table class="table table-bordered table-hover" id="tableprint">
 				<thead>
 					<tr>
 						<th>
@@ -222,12 +219,9 @@ if($ruta== ""){
 <?php
 
 
+
+
 	if(isset($lista_clientes)){
-
-
-		$loco= $rutas->getidRuta();
-
-		var_dump($loco);
 
 		foreach( $lista_clientes as $cliente){
 
