@@ -1,30 +1,5 @@
 <?php
-/* Copyright (C) 2003      Rodolphe Quiedeville <rodolphe@quiedeville.org>
- * Copyright (C) 2004-2015 Laurent Destailleur  <eldy@users.sourceforge.net>
- * Copyright (C) 2005-2016 Regis Houssin        <regis.houssin@capnetworks.com>
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- */
 
-/**
- * 	\defgroup   descuentos     Module descuentos
- *  \brief      Example of a module descriptor.
- *				Such a file must be copied into htdocs/descuentos/core/modules directory.
- *  \file       htdocs/descuentos/core/modules/moddescuentos.class.php
- *  \ingroup    descuentos
- *  \brief      Description and activation file for module descuentos
- */
 include_once DOL_DOCUMENT_ROOT .'/core/modules/DolibarrModules.class.php';
 
 
@@ -60,7 +35,7 @@ class modDescuentos extends DolibarrModules
 		// Module label (no space allowed), used if translation string 'ModuleXXXName' not found (where XXX is value of numeric property 'numero' of module)
 		$this->name = preg_replace('/^mod/i','',get_class($this));
 		// Module description, used if translation string 'ModuleXXXDesc' not found (where XXX is value of numeric property 'numero' of module)
-		$this->description = "Modulo de descuentos para productos por cantidad ";
+		$this->description = "Modulo de descuentos para productos por cantidad Y reporte de Rutas ";
 		// Possible values for version are: 'development', 'experimental', 'dolibarr' or 'dolibarr_deprecated' or version
 		$this->version = '1.0';
 		// Key used in llx_const table to save module status enabled/disabled (where descuentos is value of property name of module in uppercase)
@@ -219,7 +194,7 @@ class modDescuentos extends DolibarrModules
 									'titre'=>'descuentos',
 								'mainmenu'=>'descuentos',
 									'leftmenu'=>'descuentos',
-									'url'=>'/descuentos/prueba_list.php',
+									'url'=>'/descuentos/reportes.php',
 									'langs'=>'mylangfile@descuentos',	        // Lang file to use (without .lang) by module. File must be in langs/code_CODE/ directory.
 									'position'=>100,
 									'enabled'=>'$conf->descuentos->enabled',	// Define condition to show or hide menu entry. Use '$conf->descuentos->enabled' if entry must be visible if module is enabled.

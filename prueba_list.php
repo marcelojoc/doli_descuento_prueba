@@ -31,7 +31,7 @@ $myparam	= GETPOST('myparam','alpha');
 
 
 $search_nombre=GETPOST('search_nombre','alpha');
-echo($action);
+//echo($action);
 
 $optioncss = GETPOST('optioncss','alpha');
 
@@ -248,7 +248,7 @@ if (empty($action) || $action!= 'prueba' || $action!= 'guardar') $action='listar
                                                         <div class="row">
 
                                                         
-
+<!--
                                                             <div class="col-xs-12 col-sm-12">
                                                             
                                                                 <div class="form-group col-xs-4">
@@ -283,7 +283,7 @@ if (empty($action) || $action!= 'prueba' || $action!= 'guardar') $action='listar
                                                                 </div>
 
 
-                                                            </div>
+                                                            </div>-->
 
 
                                                         </div> <!-- fn de row -->
@@ -353,14 +353,14 @@ if (empty($action) || $action!= 'prueba' || $action!= 'guardar') $action='listar
                                             
                                                             <address>
                                                             <strong>TMS Group</strong><br>
-                                                            Avenida Principal 123<br>
-                                                            Ciudad, Provincia 00000<br>
-                                                            <abbr title="Phone">Tel:</abbr> 9XX 123 456
+                                                            R. Videla 8340 - La Puntilla<br>
+                                                            Luján de Cuyo - Mendoza - Argentina<br>
+                                                            <abbr title="Phone">Tel:</abbr>+54-261-4395900
                                                             </address>
                                                             
                                                             <address>
-                                                            <strong>Nombre Apellido</strong><br>
-                                                            <a href="mailto:#">nombre.apellido@ejemplo.com</a>
+                                                            <strong>Correo</strong><br>
+                                                            <a href="mailto:#">linux@tmsgroup.com.ar</a>
                                                             </address>
 
 
