@@ -183,19 +183,21 @@ if($ruta== ""){
 
             <div class="panel panel-default">
                 <div class="panel-heading">
-					<h3 class="panel-title">Reporte de Rutas</h3>
+					<h3 class="panel-title">Reporte de Rutas  
+					
+					<?php 
+					
+					echo $vendedores->getVendedor($id); 
+					$_SESSION["vendorPrint"]= $vendedores->getVendedor($id);
+					?> </h3>
 
-					<form action="printTable.php" method="POST" id= "printRuta" class="form-horizontal"  role="form">
 
-						<a href="javascript:printRuta()" >	<span class="pull-right clickable "><i class="glyphicon glyphicon-print"></i> Imprimir </span></a>
 
-						<input type=hidden name="var_php" value= "<?php echo (serialize($lista_clientes)); ?>" >
+						<a href="printTable.php" target="_blank" >	<span class="pull-right clickable "><i class="glyphicon glyphicon-print"></i> Imprimir </span></a>
 
-					</form>
 				</div>
                 <div class="panel-body">
-                    
-                    
+
 
 <table class="table table-bordered table-hover" id="tableprint">
 				<thead>
@@ -217,6 +219,18 @@ if($ruta== ""){
 				<tbody>
 					
 <?php
+
+// compruebo las sessiones y la creo o regenero con los datos para el print
+
+if(isset($_SESSION["dataPrint"])){
+
+	unset($_SESSION["dataPrint"]);
+
+}
+
+	$_SESSION["dataPrint"]= $lista_clientes;
+
+
 
 
 
@@ -263,8 +277,6 @@ if($ruta== ""){
 
 
 <?php
-
-
 
 //echo('hoy es '.$valor);
     //dol_fiche_end();

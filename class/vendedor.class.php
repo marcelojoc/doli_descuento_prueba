@@ -22,12 +22,48 @@ class Vendedor
 	}
 
 
-	public function getVendedor(){
+	public function getIdVendedor(){
 
 		return $this->idVendedor;
 	}
  
  
+
+ 	public function getVendedor($idVendedor){
+
+         $sql= "SELECT lastname, `firstname` FROM 
+         `llx_user_extrafields`, `llx_user` WHERE 
+         `codvendedor`=".$idVendedor."  AND  
+         `llx_user_extrafields`.`fk_object`= `llx_user`.`rowid`";
+
+            $this->db->begin();
+            $resql = $this->db->query($sql);
+        if ($resql)
+        {
+            $num = $this->db->num_rows($resql);
+            $i = 0;
+            if ($num)
+            {
+
+                            $obj = $this->db->fetch_object($resql);
+                            if ($obj)
+                            {
+                                    // You can use here results
+                                    $respuesta = $obj->lastname . " ". $obj->firstname;
+                            }
+
+            }
+        }else{
+
+            $respuesta = 'Sin Vendedor Asignado';
+        }
+
+        $this->db->commit();
+
+
+        return  $respuesta;
+
+	}
  
 
 

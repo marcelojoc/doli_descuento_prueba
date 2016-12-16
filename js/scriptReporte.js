@@ -1,7 +1,3 @@
-//alert('holaaaa');
-
-
-
 
 function cambioSelect(){
 
@@ -10,8 +6,8 @@ function cambioSelect(){
 }
 
 
-function printRuta(){
+// function printRuta(){
 
-    $('#printRuta').submit();
+//     $('#printRuta').submit();
 
-}
+// }
