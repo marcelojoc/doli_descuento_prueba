@@ -108,7 +108,6 @@ function FancyTable($header, $data)
 if (isset($_SESSION["dataPrint"])){
 
 
-
     $pdf = new PDF();
     // Títulos de las columnas
 

@@ -271,7 +271,7 @@ if(isset($_SESSION["dataPrint"])){
 </div>
 
    
-    <script src="/dolibar_local/htdocs/descuentos/js/scriptReporte.js"></script>
+    <script src="<?php echo(DOL_URL_ROOT);  ?>/descuentos/js/scriptReporte.js"></script>
   </body>
 </html>
 

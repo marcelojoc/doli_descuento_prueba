@@ -29,7 +29,7 @@ class modDescuentos extends DolibarrModules
 		// It is used to group modules in module setup page
 		$this->family = "products";
 		// Gives the possibility to the module, to provide his own family info and position of this family. (canceled $this->family)
-		$this->familyinfo = array('Modulo Descuentos' => array('position' => '001', 'label' => $langs->trans("Modulo Descuentos")));
+		$this->familyinfo = array('Modulos TMS' => array('position' => '001', 'label' => $langs->trans("Modulo Descuentos")));
 		// Module position in the family
 		$this->module_position = 500;
 		// Module label (no space allowed), used if translation string 'ModuleXXXName' not found (where XXX is value of numeric property 'numero' of module)
