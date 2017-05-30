@@ -170,9 +170,9 @@ if($ruta== ""){
 
 
 
-
             </div>
 
+			<h1 id="count"></h1>
 
 
 		</div>
@@ -203,13 +203,13 @@ if($ruta== ""){
 				<thead>
 					<tr>
 						<th>
-							Cod Cliente
+							Cod
 						</th>
 						<th>
 							Nombre
 						</th>
 						<th>
-							Direccion
+							Direccion - Departamento
 						</th>
 						<th>
 							Ruta
@@ -228,8 +228,8 @@ if(isset($_SESSION["dataPrint"])){
 
 }
 
-	$_SESSION["dataPrint"]= $lista_clientes;
-
+	$_SESSION["dataPrint"]= $lista_clientes; // cargo los datos para imprimir
+	$_SESSION["cantidad"]= count($lista_clientes);	// cargo la cantidad de clientes correspondientes
 
 
 
@@ -244,7 +244,7 @@ if(isset($_SESSION["dataPrint"])){
 
 			echo(
 
-				'<tr><td>'.$cliente['cod_client'].'</td><td>'.$cliente['nom'].'</td><td> ' . $cliente['adress']. '</td><td> '. $cliente['ruta'].' </td></tr>'
+				'<tr><td>'.$cliente['cod_client'].'</td><td>'.$cliente['nom'].'</td><td> ' . $cliente['adress'].  ' - ('.  $cliente['dep']  . ') </td><td> '. $cliente['ruta'].' </td></tr>'
 			);
 
 
@@ -262,6 +262,7 @@ if(isset($_SESSION["dataPrint"])){
 				</tbody>
 			</table>
 
+				<input type="hidden" name="count_customer" id="count_customer" value="<?php echo( $_SESSION["cantidad"]); ?>">
 
                 </div>
             </div>

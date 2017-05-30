@@ -11,3 +11,11 @@ function cambioSelect(){
 //     $('#printRuta').submit();
 
 // }
+
+$(function() {
+  // modificar el contador
+
+$('#count').html( $('#count_customer').val() +" Clientes")
+
+
+});

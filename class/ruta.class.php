@@ -52,7 +52,7 @@ class Ruta
         SELECT 
             soc.code_client, 
             soc.nom, 
-            soc.address ,  
+            soc.address ,  soc.town AS dep ,
             extra.".$nombreRutaBd."
             FROM 
                 llx_societe AS soc , 
@@ -85,6 +85,7 @@ class Ruta
                                         'cod_client'=> $obj->code_client,
                                         'nom'=>$obj->nom,
                                         'adress'=> $obj->address,
+                                        'dep'=> $obj->dep,
                                         'ruta'=> $obj->ruta1,
                                     );
                             }
