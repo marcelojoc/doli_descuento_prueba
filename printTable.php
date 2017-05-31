@@ -67,7 +67,7 @@ function FancyTable($header, $data)
     // Color de fondo
     $this->SetFillColor(200,220,255);
     // Título
-    $this->Cell(0,9,"Reporte de Ruta ".$_SESSION["vendorPrint"],0,1,'C',true);
+    $this->Cell(0,9,"Reporte de Ruta ".$_SESSION["vendorPrint"]  ."    - Clientes: ".$_SESSION["cantidad"],0,1,'C',true);
     // Salto de línea
     $this->Ln(4);
     // Colores, ancho de línea y fuente en negrita
@@ -91,7 +91,7 @@ function FancyTable($header, $data)
     {
         $this->Cell($w[0],6,$row['cod_client'],'LRB',0,'C');
         $this->Cell($w[1],6,$row['nom'],'LRB',0,'L');
-        $this->Cell($w[2],6,$row['adress'],'LRB',0,'L');
+        $this->Cell($w[2],6,$row['adress'] ." - ". $row['dep'] ,'LRB',0,'L');
         $this->Cell($w[3],6,$row['ruta'],'LRB',0,'C');
         $this->Ln();
         
@@ -111,7 +111,7 @@ if (isset($_SESSION["dataPrint"])){
     $pdf = new PDF();
     // Títulos de las columnas
 
-    $header = array('Codigo', 'Nombre', 'Direccion', 'Ruta');
+    $header = array('Codigo', 'Nombre', 'Direccion - localidad', 'Ruta');
     // Carga de datos
     $data = $_SESSION["dataPrint"];
     $pdf->SetFont('Arial','',11);

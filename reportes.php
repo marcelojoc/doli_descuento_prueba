@@ -103,7 +103,7 @@ if($ruta== ""){
 
 <div class="form-group">
   <label class="col-md-4 control-label" for="selectbasic">Seleccionar Ruta</label>
-  <div class="col-md-4 ">
+  <div class="col-md-8 ">
 
     <select id="ruta" name="ruta" class="form-control btn-block" onchange="cambioSelect()" >
 
@@ -171,9 +171,9 @@ if($ruta== ""){
 
 
             </div>
-
-			<h1 id="count"></h1>
-
+			<blockquote>
+				<h1 id="count" class="text-center text-success"></h1>
+			</blockquote>
 
 		</div>
 		<div class="col-md-8">
