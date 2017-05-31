@@ -191,7 +191,7 @@ class modDescuentos extends DolibarrModules
 		// Example to declare a new Top Menu entry and its Left menu entry:
 		 $this->menu[$r]=array(	'fk_menu'=>'fk_mainmenu=10777',			                // '' if this is a top menu. For left menu, use 'fk_mainmenu=xxx' or 'fk_mainmenu=xxx,fk_leftmenu=yyy' where xxx is mainmenucode and yyy is a leftmenucode
 								'type'=>'top',			                // This is a Top menu entry
-									'titre'=>'Mod Rutas',
+									'titre'=>'Rutas',
 								'mainmenu'=>'descuentos',
 									'leftmenu'=>'descuentos',
 									'url'=>'/descuentos/reportes.php',
